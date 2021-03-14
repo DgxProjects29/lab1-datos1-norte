@@ -36,6 +36,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
         tel_field.setText(currData.get("telefono"));
 
         this.updateRowIndex = updateRowIndex;
+        accept_form_button.setText("Actualizar cambios");
     }
 
     public void setBaseController(BaseController baseController) {

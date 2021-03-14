@@ -51,6 +51,14 @@ public class ProviderView extends javax.swing.JPanel {
         dialog.setVisible(true);
     }
 
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro a actualizar", 
+            TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -175,19 +183,41 @@ public class ProviderView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        ProviderViewForm providerViewForm = new ProviderViewForm(
+        ProviderViewForm dialogForm = new ProviderViewForm(
                 (JFrame) SwingUtilities.getWindowAncestor(this), true
         );
-        providerViewForm.setBaseController(controller);
-        providerViewForm.setVisible(true);
+        dialogForm.setBaseController(controller);
+        dialogForm.setVisible(true);
     }//GEN-LAST:event_onAdd
 
     private void onModify(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onModify
         
+        int row = provider_appo_table.getSelectedRow();
+        if (row != -1){
+            ProviderViewForm dialogForm = new ProviderViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setFields(controller.getDataFromRow(row), row);
+            dialogForm.setBaseController(controller);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+
     }//GEN-LAST:event_onModify
 
     private void onDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDelete
-        
+        int row = provider_appo_table.getSelectedRow();
+        if (row != -1){
+            controller.getTableModel().removeRow(row);
+            try {
+                controller.reWriteFile();
+            } catch (IOException e) {
+                fileExceptionDialog();
+            }
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onDelete
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

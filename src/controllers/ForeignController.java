@@ -14,6 +14,7 @@ public class ForeignController extends BaseController {
     private String foreignKey;
     private String foreignColumn;
 
+    //dont show the key in tablemodel
     public ForeignController(DefaultTableModel tableModel, 
         PseudoFile pseudoFile,
         String foreignColumn,
