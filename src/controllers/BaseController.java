@@ -1,6 +1,7 @@
 package controllers;
 
 import java.io.IOException;
+import java.util.HashMap;
 
 import javax.swing.table.DefaultTableModel;
 import pseudofiles.PseudoFile;
@@ -34,6 +35,22 @@ public abstract class BaseController {
         for (int i = 0; i < rows; i++) {
             tableModel.removeRow(0);
         }
+    }
+
+    public HashMap<String, String> getDataFromRow(int row){
+        int columnLenght = this.tableModel.getColumnCount();
+        HashMap<String, String> data = new HashMap<>();
+        for (int i = 0; i < columnLenght; i++) {
+            data.put(
+                this.tableModel.getColumnName(i), 
+                (String)this.tableModel.getValueAt(row, i)
+            );
+        }
+        return data;
+    }
+
+    public DefaultTableModel getTableModel(){
+        return tableModel;
     }
     
 }

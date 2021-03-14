@@ -3,6 +3,17 @@ package clientviews;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+
+import forms.Form;
+import forms.PseudoWriterForm;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.InfoDialog.TypeInfoDialog;
+import models.Client;
+import pseudofiles.PseudoFile;
+import pseudofiles.PseudoFileWriter;
+import registerforms.RegisterForm;
 
 
 public class RegisterViewForm extends javax.swing.JDialog {
@@ -208,7 +219,7 @@ public class RegisterViewForm extends javax.swing.JDialog {
         register_client_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         register_client_button.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                register_client_buttononRegister(evt);
+                onAccpetForm(evt);
             }
         });
 
@@ -253,9 +264,23 @@ public class RegisterViewForm extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void register_client_buttononRegister(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_register_client_buttononRegister
-
-    }//GEN-LAST:event_register_client_buttononRegister
+    private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
+        /* Form registerForm = new RegisterForm(
+                ced_field.getText(), 
+                name_field.getText(), 
+                age_field.getText(), 
+                email_field.getText(), 
+                tel_field.getText(), 
+                password_field.getText(), 
+                re_pass_field.getText(), 
+                adress_field.getText(), 
+                1
+        );
+        PseudoWriterForm pseudoWriterForm = 
+            new PseudoWriterForm(registerForm, "data/clientes.csv");
+        pseudoWriterForm.writeRegister(); */
+        
+    }//GEN-LAST:event_onAccpetForm
 
     /**
      * @param args the command line arguments

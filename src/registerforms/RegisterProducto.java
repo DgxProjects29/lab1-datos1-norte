@@ -2,7 +2,7 @@ package registerforms;
 
 import forms.Form;
 import forms.ValidationError;
-import models.Producto;
+import models.Product;
 
 public class RegisterProducto implements Form {
 
@@ -13,7 +13,7 @@ public class RegisterProducto implements Form {
     private String stock;
     private String proveedorcod;
 
-    private Producto producto;
+    private Product producto;
     private boolean isDataValid;
     private String errorMessage;
 
@@ -46,7 +46,7 @@ public class RegisterProducto implements Form {
     private void validateDataTypes() throws ValidationError {
 
         try {
-            producto = new Producto();
+            producto = new Product();
             producto.setCodigo(codigo);
             producto.setName(name);
             producto.setDetalles(detalles);

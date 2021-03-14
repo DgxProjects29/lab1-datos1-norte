@@ -46,8 +46,8 @@ public class RegisterForm implements Form {
 
             validateDataTypes();
             checkAgeRange();
-            checkEmail();
-            checkPassword();
+            //checkEmail();
+            //checkPassword();
             checkSizeAdress();
             checkSizePhone();
             checkSizeName();

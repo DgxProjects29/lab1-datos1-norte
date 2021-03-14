@@ -12,6 +12,12 @@ public class PseudoFile {
         this.columns = columns;
     }
 
+    //This cotr is only use for writting purposes
+    public PseudoFile(File file) {
+        this.file = file;
+        this.columns = new String[1];
+    }
+
     public File getFile() {
         return file;
     }

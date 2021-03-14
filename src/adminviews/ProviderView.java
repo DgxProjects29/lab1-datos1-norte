@@ -1,12 +1,54 @@
 
 package adminviews;
 
+import adminviews.formviews.ProviderViewForm;
+import controllers.BaseController;
+import controllers.SimpleController;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.InfoDialog.TypeInfoDialog;
+import models.Provider;
+import pseudofiles.PseudoFile;
+
+import java.io.File;
+import java.io.IOException;
+
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
 
 public class ProviderView extends javax.swing.JPanel {
 
-    
+    private BaseController controller;
+
     public ProviderView() {
         initComponents();
+
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/provedores.csv"), 
+            Provider.getColumns()
+        );
+
+        controller = new SimpleController(
+            (DefaultTableModel) provider_appo_table.getModel(), 
+            pseudoFile
+        );
+        
+        updateTable();
+    }
+
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
     }
 
     /**
@@ -133,17 +175,20 @@ public class ProviderView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        // TODO add your handling code here:
+        ProviderViewForm providerViewForm = new ProviderViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+        );
+        providerViewForm.setBaseController(controller);
+        providerViewForm.setVisible(true);
     }//GEN-LAST:event_onAdd
 
     private void onModify(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onModify
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_onModify
 
     private void onDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDelete
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_onDelete
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;

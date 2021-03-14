@@ -2,20 +2,20 @@ package registerforms;
 
 import forms.Form;
 import forms.ValidationError;
-import models.Proveedor;
+import models.Provider;
 
-public class RegisterProveedor implements Form {
+public class RegisterProvider implements Form {
 
     private String codigo;
     private String name;
     private String correo;
     private String telefono;
 
-    private Proveedor proveedor;
+    private Provider proveedor;
     private boolean isDataValid;
     private String errorMessage;
 
-    public RegisterProveedor(String codigo, String name, String correo,
+    public RegisterProvider(String codigo, String name, String correo,
             String telefono) {
         this.codigo = codigo;
         this.name = name;
@@ -30,9 +30,9 @@ public class RegisterProveedor implements Form {
     public void validate() {
         try {
             validateDataTypes();
-            checkSizeName();
-            checkEmail();
-            checkSizePhone();
+            //checkSizeName();
+            //checkEmail();
+            //checkSizePhone();
 
         } catch (ValidationError e) {
             isDataValid = false;
@@ -44,7 +44,7 @@ public class RegisterProveedor implements Form {
     private void validateDataTypes() throws ValidationError {
 
         try {
-            proveedor = new Proveedor();
+            proveedor = new Provider();
             proveedor.setCodigo(codigo);
             proveedor.setName(name);
             proveedor.setEmail(correo);

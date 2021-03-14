@@ -81,4 +81,15 @@ public class Pet {
         return clientid;
     }
 
+    public static String[] getColumns(){
+        return new String[]{
+            "id",
+            "nombre",
+            "raza",
+            "color",
+            "nacimiento",
+            "idCliente",
+        };
+    }
+
 }

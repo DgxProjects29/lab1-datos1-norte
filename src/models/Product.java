@@ -1,6 +1,6 @@
 package models;
 
-public class Producto {
+public class Product {
 
     private String codigo;
     private String name;
@@ -9,7 +9,7 @@ public class Producto {
     private int stock;
     private String proveedorcod;
 
-    public Producto(String codigo, String name, String detalles, 
+    public Product(String codigo, String name, String detalles, 
         Double preciodecompra, int stock, String proveedorcod) {
         
         this.codigo = codigo;
@@ -21,7 +21,7 @@ public class Producto {
 
     }
 
-    public Producto() {
+    public Product() {
 
     }
 
@@ -72,6 +72,17 @@ public class Producto {
 
     public void setProveedorCod(String proveedorcod) {
         this.proveedorcod = proveedorcod;
+    }
+
+    public static String[] getColumns(){
+        return new String[]{
+            "codigo",
+            "nombre",
+            "detalles",
+            "precioCompra",
+            "stock",
+            "codProvedor",
+        };
     }
 
 }

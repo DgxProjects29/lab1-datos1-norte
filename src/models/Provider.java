@@ -1,14 +1,14 @@
 
 package models;
 
-public class Proveedor {
+public class Provider {
 
     private String codigo;
     private String name;
     private String email;
     private String telefono;
 
-    public Proveedor(String codigo, String name, String email, 
+    public Provider(String codigo, String name, String email, 
         String telefono) {
 
         this.codigo = codigo;
@@ -17,7 +17,7 @@ public class Proveedor {
         this.telefono = telefono;
     }
 
-    public Proveedor() {
+    public Provider() {
 
     }
 
@@ -56,6 +56,15 @@ public class Proveedor {
 
     public String getTelefono() {
         return telefono;
+    }
+    
+    public static String[] getColumns(){
+        return new String[]{
+            "codigo",
+            "nombre",
+            "email",
+            "telefono"
+        };
     }
 
 }

@@ -83,4 +83,16 @@ public class Client {
         return direccion;
     }
 
+    public static String[] getColumns(){
+        return new String[]{
+            "cedula",
+            "nombre",
+            "telefono",
+            "direccion",
+            "contraseña",
+            "correo",
+            "edad"
+        };
+    }
+
 }

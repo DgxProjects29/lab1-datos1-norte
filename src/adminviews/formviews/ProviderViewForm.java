@@ -2,12 +2,19 @@ package adminviews.formviews;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.util.HashMap;
 
+import controllers.BaseController;
+import registerforms.RegisterProvider;
+import forms.Form;
+import forms.FormViewHandler;
 
-public class ProductViewForm extends javax.swing.JDialog {
+public class ProviderViewForm extends javax.swing.JDialog {
 
-    
-    public ProductViewForm(java.awt.Frame parent, boolean modal) {
+    private int updateRowIndex = -1;
+    private BaseController baseController;
+
+    public ProviderViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
@@ -19,6 +26,20 @@ public class ProductViewForm extends javax.swing.JDialog {
         int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
         this.setLocation(x, y - 25);
+    }
+
+    public void setFields(HashMap<String, String> currData, int updateRowIndex){
+
+        code_field.setText(currData.get("codigo"));
+        name_field.setText(currData.get("nombre"));
+        email_field.setText(currData.get("email")); 
+        tel_field.setText(currData.get("telefono"));
+
+        this.updateRowIndex = updateRowIndex;
+    }
+
+    public void setBaseController(BaseController baseController) {
+        this.baseController = baseController;
     }
 
     /**
@@ -35,18 +56,14 @@ public class ProductViewForm extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         accept_form_button = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
-        ced_label = new javax.swing.JLabel();
+        code_label = new javax.swing.JLabel();
         code_field = new javax.swing.JTextField();
         name_label = new javax.swing.JLabel();
         name_field = new javax.swing.JTextField();
-        age_labe = new javax.swing.JLabel();
-        age_field = new javax.swing.JTextField();
         emai_label = new javax.swing.JLabel();
         email_field = new javax.swing.JTextField();
         tel_label = new javax.swing.JLabel();
         tel_field = new javax.swing.JTextField();
-        adress_label = new javax.swing.JLabel();
-        adress_field = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -58,7 +75,7 @@ public class ProductViewForm extends javax.swing.JDialog {
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         header_title.setForeground(new java.awt.Color(255, 255, 255));
-        header_title.setText("Registrar Producto");
+        header_title.setText("Registrar Provedor");
         header.add(header_title);
 
         jPanel1.setBackground(new java.awt.Color(249, 247, 247));
@@ -67,7 +84,7 @@ public class ProductViewForm extends javax.swing.JDialog {
         accept_form_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         accept_form_button.setForeground(new java.awt.Color(255, 255, 255));
         accept_form_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-login-24.png"))); // NOI18N
-        accept_form_button.setText("Añadir Producto");
+        accept_form_button.setText("Añadir Provedor");
         accept_form_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
         accept_form_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         accept_form_button.addActionListener(new java.awt.event.ActionListener() {
@@ -77,13 +94,13 @@ public class ProductViewForm extends javax.swing.JDialog {
         });
 
         jPanel3.setBackground(new java.awt.Color(247, 249, 249));
-        jPanel3.setLayout(new java.awt.GridLayout(6, 2, 0, 10));
+        jPanel3.setLayout(new java.awt.GridLayout(4, 2, 0, 10));
 
-        ced_label.setBackground(new java.awt.Color(247, 249, 249));
-        ced_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        ced_label.setForeground(new java.awt.Color(33, 33, 33));
-        ced_label.setText("Codigo:");
-        jPanel3.add(ced_label);
+        code_label.setBackground(new java.awt.Color(247, 249, 249));
+        code_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        code_label.setForeground(new java.awt.Color(33, 33, 33));
+        code_label.setText("Codigo:");
+        jPanel3.add(code_label);
 
         code_field.setBackground(new java.awt.Color(255, 255, 255));
         code_field.setColumns(15);
@@ -111,26 +128,10 @@ public class ProductViewForm extends javax.swing.JDialog {
         name_field.setName(""); // NOI18N
         jPanel3.add(name_field);
 
-        age_labe.setBackground(new java.awt.Color(247, 249, 249));
-        age_labe.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        age_labe.setForeground(new java.awt.Color(33, 33, 33));
-        age_labe.setText("Detalles:");
-        jPanel3.add(age_labe);
-
-        age_field.setBackground(new java.awt.Color(255, 255, 255));
-        age_field.setColumns(15);
-        age_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        age_field.setForeground(new java.awt.Color(33, 33, 33));
-        age_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        age_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        age_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        age_field.setName(""); // NOI18N
-        jPanel3.add(age_field);
-
         emai_label.setBackground(new java.awt.Color(247, 249, 249));
         emai_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         emai_label.setForeground(new java.awt.Color(33, 33, 33));
-        emai_label.setText("Precio Compra:");
+        emai_label.setText("Correo:");
         jPanel3.add(emai_label);
 
         email_field.setBackground(new java.awt.Color(255, 255, 255));
@@ -146,7 +147,7 @@ public class ProductViewForm extends javax.swing.JDialog {
         tel_label.setBackground(new java.awt.Color(247, 249, 249));
         tel_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tel_label.setForeground(new java.awt.Color(33, 33, 33));
-        tel_label.setText("stock:");
+        tel_label.setText("Telefono");
         jPanel3.add(tel_label);
 
         tel_field.setBackground(new java.awt.Color(255, 255, 255));
@@ -159,44 +160,28 @@ public class ProductViewForm extends javax.swing.JDialog {
         tel_field.setName(""); // NOI18N
         jPanel3.add(tel_field);
 
-        adress_label.setBackground(new java.awt.Color(247, 249, 249));
-        adress_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        adress_label.setForeground(new java.awt.Color(33, 33, 33));
-        adress_label.setText("provedor:");
-        jPanel3.add(adress_label);
-
-        adress_field.setBackground(new java.awt.Color(255, 255, 255));
-        adress_field.setColumns(15);
-        adress_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        adress_field.setForeground(new java.awt.Color(33, 33, 33));
-        adress_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        adress_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        adress_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        adress_field.setName(""); // NOI18N
-        jPanel3.add(adress_field);
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(56, 56, 56)
+                .addGap(50, 50, 50)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
                 .addComponent(accept_form_button)
-                .addGap(81, 81, 81))
+                .addGap(93, 93, 93))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(169, 169, 169)
-                        .addComponent(accept_form_button))
+                        .addGap(119, 119, 119)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(85, 85, 85)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(88, Short.MAX_VALUE))
+                        .addGap(171, 171, 171)
+                        .addComponent(accept_form_button)))
+                .addContainerGap(136, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -218,7 +203,24 @@ public class ProductViewForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
+        Form registerForm = new RegisterProvider(
+                code_field.getText(), 
+                name_field.getText(), 
+                email_field.getText(), 
+                tel_field.getText()
+        );
+        FormViewHandler formViewHandler = new FormViewHandler(
+            registerForm, baseController
+        );
 
+        if(updateRowIndex == -1){
+            formViewHandler.writeRegister();
+        }else{
+            formViewHandler.updateRegister(updateRowIndex);
+        }
+        /* PseudoWriterForm pseudoWriterForm = 
+            new PseudoWriterForm(registerForm, pseudoFile);
+        pseudoWriterForm.writeRegister(); */
     }//GEN-LAST:event_onAccpetForm
 
     /**
@@ -238,21 +240,23 @@ public class ProductViewForm extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProductViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProductViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProductViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProductViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ProductViewForm dialog = new ProductViewForm(new javax.swing.JFrame(), true);
+                ProviderViewForm dialog = new ProviderViewForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -266,12 +270,8 @@ public class ProductViewForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept_form_button;
-    private javax.swing.JTextField adress_field;
-    private javax.swing.JLabel adress_label;
-    private javax.swing.JTextField age_field;
-    private javax.swing.JLabel age_labe;
-    private javax.swing.JLabel ced_label;
     private javax.swing.JTextField code_field;
+    private javax.swing.JLabel code_label;
     private javax.swing.JLabel emai_label;
     private javax.swing.JTextField email_field;
     private javax.swing.JPanel header;
