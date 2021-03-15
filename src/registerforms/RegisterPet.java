@@ -16,6 +16,7 @@ public class RegisterPet implements Form {
     private Pet pet;
     private boolean isDataValid;
     private String errorMessage;
+    private Validation validation = new Validation();
 
     
     public RegisterPet(String nombre, String raza,
@@ -88,10 +89,12 @@ public class RegisterPet implements Form {
     
      private void checkRaza() throws ValidationError {
 
-        if (raza.length() >= 8 && raza.length() <= 30) {
+        if (validation.validateCharField(raza, 3, 20)) {
 
         } else {
-            throw new ValidationError("Raza Invalida");
+            throw new ValidationError("Raza Invalida. Por favor, asegurese de "
+                    + "que la raza suministrada se encuentre entre 3 y 20"
+                    + "caracteres");
 
         }
 
@@ -99,42 +102,23 @@ public class RegisterPet implements Form {
 
     private void checkColor() throws ValidationError {
 
-        if (color.length() >= 4 && color.length() <= 15) {
+        if (validation.validateCharField(color, 4, 12)) {
 
         } else {
-            throw new ValidationError("Raza Invalida");
+            throw new ValidationError("Color Invalido. El color suministrado "
+                    + "debe estar entre 4 y 12 caracteres");
 
         }
 
     }
       private void checkSizeName() throws ValidationError {
-        String namer = nombre;
-        if (namer.length() >= 14 && namer.length() <= 30) {
-            int i = 1, sw = 0, seg = 0;
-            while (i < namer.length()) {
-
-                if (namer.substring(i, i + 1).equals(" ") && seg >= 3) {
-                    sw += 1;
-
-                }
-
-                if (!(namer.substring(i, i + 1).equals(" "))) {
-                    seg += 1;
-
-                } else {
-
-                    seg = 0;
-
-                }
-
-            }
-            //si sw < 2 eso quiere decir que hay menos de dos especios entre tres caracteres consecutivos 
-            if (sw < 2) {
-                throw new ValidationError("Nombre invalido");
-            }
+       
+        if (validation.validateCharField(nombre, 3, 14)) {
+            
         } else {
 
-            throw new ValidationError("Nombre invalido");
+            throw new ValidationError("Nombre invalido. El nombre sumministrado "
+                    + "debe estar entre 3 y 14 caracteres. Recuerda, solo es un nombre como: coco o panelita ");
 
         }
 

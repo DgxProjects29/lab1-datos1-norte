@@ -16,6 +16,7 @@ public class RegisterProducto implements Form {
     private Product producto;
     private boolean isDataValid;
     private String errorMessage;
+    private Validation validation = new Validation();
 
     public RegisterProducto(String codigo, String name, String detalles,
             String preciodecompra, String stock, String codigocod) {
@@ -34,7 +35,12 @@ public class RegisterProducto implements Form {
     public void validate() {
         try {
             validateDataTypes();
+            checkSizeCode();
             checkSizeName();
+            checkSizeDetails();
+            checkPrize();
+            checkSizeStock();
+            checkSizeProviderCode();
 
         } catch (ValidationError e) {
             isDataValid = false;
@@ -59,44 +65,91 @@ public class RegisterProducto implements Form {
         }
 
     }
-    
-      //validar nombre 
+
+    //validar nombre 
     private void checkSizeName() throws ValidationError {
-        String namer = name;
-        if (namer.length() >= 14 && namer.length() <= 30) {
-            int i = 1, sw = 0, seg = 0;
-            while (i < namer.length()) {
 
-                if (namer.substring(i, i + 1).equals(" ") && seg >= 3) {
-                    sw += 1;
+        if (validation.validateCharField(name, 4, 25)) {
 
-                }
-
-                if (!(namer.substring(i, i + 1).equals(" "))) {
-                    seg += 1;
-
-                } else {
-
-                    seg = 0;
-
-                }
-
-            }
-            //si sw < 2 eso quiere decir que hay menos de dos especios entre tres caracteres consecutivos 
-            if (sw < 2) {
-                throw new ValidationError("Nombre invalido");
-            }
         } else {
 
-            throw new ValidationError("Nombre invalido");
+            throw new ValidationError("Nombre invalido. Por favor, asegurese de "
+                    + "que el nombre suministrado se encuentre entre 4 y 25 "
+                    + "caracteres. Recuerda que debes ingresar tu nombre completo (nombre y apellidos)");
 
         }
 
     }
 
-     @Override
+    //validar codigo
+    private void checkSizeCode() throws ValidationError {
+
+        if (validation.validateCharField(codigo, 1, 50)) {
+
+        } else {
+
+            throw new ValidationError("Codigo invalido. Por favor, asegurese de "
+                    + "que el codigo suministrado se encuentre entre 1 y 50 caracteres. ");
+        }
+
+    }
+
+    private void checkSizeDetails() throws ValidationError {
+
+        if (validation.validateCharField(detalles, 1, 100)) {
+
+        } else {
+
+            throw new ValidationError("Detalles invalidos. Por favor, asegurese de "
+                    + "que los detalles suministrados se encuentren entre 1 y 100 caracteres. ");
+        }
+
+    }
+    
+    
+    private void checkPrize() throws ValidationError {
+
+        int prize = Integer.parseInt(preciodecompra);
+
+        if (prize > 0) {
+
+        } else {
+
+            throw new ValidationError("Precio invalido. Por favor, asegurese de "
+                    + "que el estock suministrado sea mayor que 0. ");
+        }
+        
+    }
+    
+
+    private void checkSizeStock() throws ValidationError {
+
+        int stocker = Integer.parseInt(stock);
+
+        if (stocker >= 0) {
+
+        } else {
+
+            throw new ValidationError("Stock invalido. Por favor, asegurese de "
+                    + "que el estock suministrado sea mayor o igual que 0. ");
+        }
+        
+    }
+
+    private void checkSizeProviderCode() throws ValidationError {
+
+        if (validation.validateCharField(proveedorcod, 1, 50)) {
+
+        } else {
+
+            throw new ValidationError("Codigo invalido. Por favor, asegurese de "
+                    + "que el codigo suministrado se encuentre entre 1 y 50 caracteres. ");
+        }
+    }
+
+    @Override
     public boolean isDataValid() {
-       return isDataValid;
+        return isDataValid;
     }
 
     @Override
@@ -106,8 +159,8 @@ public class RegisterProducto implements Form {
 
     @Override
     public String[] getValidRegister() {
-         return new String[]{codigo, name, detalles, preciodecompra, 
-            stock, proveedorcod}; 
+        return new String[]{codigo, name, detalles, preciodecompra,
+            stock, proveedorcod};
     }
 
 }
