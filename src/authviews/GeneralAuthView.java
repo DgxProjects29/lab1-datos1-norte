@@ -3,18 +3,25 @@ package authviews;
 import adminviews.AdminView;
 import clientviews.ClientView;
 import clientviews.RegisterViewForm;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.InfoDialog.TypeInfoDialog;
+import inevaup.dialogs.WarningDialog;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import java.io.IOException;
+import pseudofiles.PseudoFile;
+import pseudofiles.PseudoFileReader;
 import vetviews.VetView;
 
 public class GeneralAuthView extends javax.swing.JFrame {
 
     public GeneralAuthView() {
         initComponents();
-        
+
         centreWindow();
     }
-    
+
     private void centreWindow() {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
@@ -334,21 +341,59 @@ public class GeneralAuthView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onClientLogin
-       ClientView clientView = new ClientView();
-       clientView.setVisible(true);
+        PseudoFile pseudoFile = new PseudoFile(
+                new File("data/clientes.csv"),
+                new String[]{"cedula", "nombre", "telefono", "direccion", "contraseña", "correo", "edad"}
+        );
+        boolean x;
+        AuthLogic authLogic = new AuthLogic();
+        x=authLogic.autenticacion(pseudoFile, client_ced_field.getText(), client_password_field.getText());
        
-       this.dispose();
+            if (x) {
+                ClientView clientView = new ClientView();
+                clientView.setVisible(true);
+                this.dispose();
+            } else {
+                InfoDialog infoDialog = new InfoDialog(
+                        null,
+                        "Error",
+                        "Usuario y/o Contraseña incorrectos",
+                        TypeInfoDialog.ERROR_DIALOG
+                );
+                infoDialog.setVisible(true);
+            }
+        
+
     }//GEN-LAST:event_onClientLogin
 
     private void onVetLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onVetLogin
-        VetView vetView = new VetView();
-        vetView.setVisible(true);
+      PseudoFile pseudoFile = new PseudoFile(
+                new File("data/veterinarios.csv"),
+                new String[]{"cedula", "nombre", "telefono", "direccion", "contraseña", "correo", "edad"}
+        );
+        boolean x;
+        AuthLogic authLogic = new AuthLogic();
+        x=authLogic.autenticacion(pseudoFile, vet_ced_field.getText(), vet_password_field.getText());
+       
+            if (x) {
+                ClientView clientView = new ClientView();
+                clientView.setVisible(true);
+                this.dispose();
+            } else {
+                InfoDialog infoDialog = new InfoDialog(
+                        null,
+                        "Error",
+                        "Usuario y/o Contraseña incorrectos",
+                        TypeInfoDialog.ERROR_DIALOG
+                );
+                infoDialog.setVisible(true);
+            }
     }//GEN-LAST:event_onVetLogin
 
     private void onAdminLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdminLogin
         AdminView adminView = new AdminView();
         adminView.setVisible(true);
-        
+
         this.dispose();
     }//GEN-LAST:event_onAdminLogin
 
