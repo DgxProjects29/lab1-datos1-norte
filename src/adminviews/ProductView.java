@@ -1,12 +1,69 @@
 
 package adminviews;
 
+import adminviews.formviews.ProductViewForm;
+import controllers.BaseController;
+import controllers.SimpleController;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.WarningDialog;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import models.Product;
+import pseudofiles.PseudoFile;
+
 
 public class ProductView extends javax.swing.JPanel {
-
+    
+    private final BaseController controller;
     
     public ProductView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/productos.csv"), 
+            Product.getColumns()
+        );
+
+        controller = new SimpleController(
+            (DefaultTableModel) product_table.getModel(), 
+            pseudoFile
+        );
+        
+        updateTable();
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private boolean deleteWarningDialog(){
+        WarningDialog dialog = new WarningDialog(null, "Advertencia", 
+            "¿Está seguro de eliminar el registro?"
+        );
+        dialog.setVisible(true);
+        return dialog.IsWarningAccepted();
     }
 
     /**
@@ -133,15 +190,41 @@ public class ProductView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        // TODO add your handling code here:
+        ProductViewForm dialogForm = new ProductViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+        );
+        dialogForm.setBaseController(controller);
+        dialogForm.setVisible(true);
     }//GEN-LAST:event_onAdd
 
     private void onModify(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onModify
-        // TODO add your handling code here:
+        int row = product_table.getSelectedRow();
+        if (row != -1){
+            ProductViewForm dialogForm = new ProductViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setFields(controller.getDataFromRow(row), row);
+            dialogForm.setBaseController(controller);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onModify
 
     private void onDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDelete
-        // TODO add your handling code here:
+        int row = product_table.getSelectedRow();
+        if (row != -1){
+            if(deleteWarningDialog()){
+                controller.getTableModel().removeRow(row);
+                try {
+                    controller.reWriteFile();
+                } catch (IOException e) {
+                    fileExceptionDialog();
+                }
+            }
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onDelete
 
 

@@ -1,17 +1,35 @@
 package adminviews.formviews;
 
+import controllers.BaseController;
+import forms.ComboFieldGetter;
+import forms.Form;
+import forms.FormViewHandler;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import java.io.File;
+import java.util.HashMap;
+import models.Provider;
+import pseudofiles.PseudoFile;
+import registerforms.RegisterProducto;
 
 public class ProductViewForm extends javax.swing.JDialog {
 
+    private int updateRowIndex = -1;
+    private BaseController baseController;
     
     public ProductViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
         centreWindow();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/provedores.csv"), 
+            Provider.getColumns()
+        );
+        
+        ComboFieldGetter cb = new ComboFieldGetter(pseudoFile, "codigo");
+        provider_combo.setModel(cb.getComboModel());
     }
     
     private void centreWindow() {
@@ -19,6 +37,23 @@ public class ProductViewForm extends javax.swing.JDialog {
         int x = (int) ((dimension.getWidth() - this.getWidth()) / 2);
         int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
         this.setLocation(x, y - 25);
+    }
+    
+    public void setFields(HashMap<String, String> currData, int updateRowIndex){
+
+        code_field.setText(currData.get("codigo"));
+        name_field.setText(currData.get("nombre"));
+        details_field.setText(currData.get("detalles")); 
+        buy_price_field.setText(currData.get("precioCompra"));
+        stock_field.setText(currData.get("stock"));
+        provider_combo.setSelectedItem(currData.get("provedorCod"));
+
+        this.updateRowIndex = updateRowIndex;
+        accept_form_button.setText("Actualizar cambios");
+    }
+    
+    public void setBaseController(BaseController baseController) {
+        this.baseController = baseController;
     }
 
     /**
@@ -40,13 +75,13 @@ public class ProductViewForm extends javax.swing.JDialog {
         name_label = new javax.swing.JLabel();
         name_field = new javax.swing.JTextField();
         age_labe = new javax.swing.JLabel();
-        age_field = new javax.swing.JTextField();
+        details_field = new javax.swing.JTextField();
         emai_label = new javax.swing.JLabel();
-        email_field = new javax.swing.JTextField();
+        buy_price_field = new javax.swing.JTextField();
         tel_label = new javax.swing.JLabel();
-        tel_field = new javax.swing.JTextField();
+        stock_field = new javax.swing.JTextField();
         adress_label = new javax.swing.JLabel();
-        adress_field = new javax.swing.JTextField();
+        provider_combo = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -117,15 +152,15 @@ public class ProductViewForm extends javax.swing.JDialog {
         age_labe.setText("Detalles:");
         jPanel3.add(age_labe);
 
-        age_field.setBackground(new java.awt.Color(255, 255, 255));
-        age_field.setColumns(15);
-        age_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        age_field.setForeground(new java.awt.Color(33, 33, 33));
-        age_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        age_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        age_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        age_field.setName(""); // NOI18N
-        jPanel3.add(age_field);
+        details_field.setBackground(new java.awt.Color(255, 255, 255));
+        details_field.setColumns(15);
+        details_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        details_field.setForeground(new java.awt.Color(33, 33, 33));
+        details_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        details_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        details_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        details_field.setName(""); // NOI18N
+        jPanel3.add(details_field);
 
         emai_label.setBackground(new java.awt.Color(247, 249, 249));
         emai_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -133,15 +168,15 @@ public class ProductViewForm extends javax.swing.JDialog {
         emai_label.setText("Precio Compra:");
         jPanel3.add(emai_label);
 
-        email_field.setBackground(new java.awt.Color(255, 255, 255));
-        email_field.setColumns(15);
-        email_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        email_field.setForeground(new java.awt.Color(33, 33, 33));
-        email_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        email_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        email_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        email_field.setName(""); // NOI18N
-        jPanel3.add(email_field);
+        buy_price_field.setBackground(new java.awt.Color(255, 255, 255));
+        buy_price_field.setColumns(15);
+        buy_price_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        buy_price_field.setForeground(new java.awt.Color(33, 33, 33));
+        buy_price_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        buy_price_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        buy_price_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        buy_price_field.setName(""); // NOI18N
+        jPanel3.add(buy_price_field);
 
         tel_label.setBackground(new java.awt.Color(247, 249, 249));
         tel_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -149,15 +184,15 @@ public class ProductViewForm extends javax.swing.JDialog {
         tel_label.setText("stock:");
         jPanel3.add(tel_label);
 
-        tel_field.setBackground(new java.awt.Color(255, 255, 255));
-        tel_field.setColumns(15);
-        tel_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tel_field.setForeground(new java.awt.Color(33, 33, 33));
-        tel_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        tel_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        tel_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        tel_field.setName(""); // NOI18N
-        jPanel3.add(tel_field);
+        stock_field.setBackground(new java.awt.Color(255, 255, 255));
+        stock_field.setColumns(15);
+        stock_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        stock_field.setForeground(new java.awt.Color(33, 33, 33));
+        stock_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        stock_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        stock_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        stock_field.setName(""); // NOI18N
+        jPanel3.add(stock_field);
 
         adress_label.setBackground(new java.awt.Color(247, 249, 249));
         adress_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -165,15 +200,13 @@ public class ProductViewForm extends javax.swing.JDialog {
         adress_label.setText("provedor:");
         jPanel3.add(adress_label);
 
-        adress_field.setBackground(new java.awt.Color(255, 255, 255));
-        adress_field.setColumns(15);
-        adress_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        adress_field.setForeground(new java.awt.Color(33, 33, 33));
-        adress_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        adress_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        adress_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        adress_field.setName(""); // NOI18N
-        jPanel3.add(adress_field);
+        provider_combo.setBackground(new java.awt.Color(255, 255, 255));
+        provider_combo.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        provider_combo.setForeground(new java.awt.Color(33, 33, 33));
+        provider_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna" }));
+        provider_combo.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 0));
+        provider_combo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        jPanel3.add(provider_combo);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -218,7 +251,23 @@ public class ProductViewForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
+        Form registerForm = new RegisterProducto(
+                code_field.getText(), 
+                name_field.getText(), 
+                details_field.getText(), 
+                buy_price_field.getText(),
+                stock_field.getText(),
+                (String)provider_combo.getItemAt(provider_combo.getSelectedIndex())
+        );
+        FormViewHandler formViewHandler = new FormViewHandler(
+            registerForm, baseController
+        );
 
+        if(updateRowIndex == -1){
+            formViewHandler.writeRegister();
+        }else{
+            formViewHandler.updateRegister(updateRowIndex);
+        }
     }//GEN-LAST:event_onAccpetForm
 
     /**
@@ -266,21 +315,21 @@ public class ProductViewForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept_form_button;
-    private javax.swing.JTextField adress_field;
     private javax.swing.JLabel adress_label;
-    private javax.swing.JTextField age_field;
     private javax.swing.JLabel age_labe;
+    private javax.swing.JTextField buy_price_field;
     private javax.swing.JLabel ced_label;
     private javax.swing.JTextField code_field;
+    private javax.swing.JTextField details_field;
     private javax.swing.JLabel emai_label;
-    private javax.swing.JTextField email_field;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField name_field;
     private javax.swing.JLabel name_label;
-    private javax.swing.JTextField tel_field;
+    private javax.swing.JComboBox<String> provider_combo;
+    private javax.swing.JTextField stock_field;
     private javax.swing.JLabel tel_label;
     // End of variables declaration//GEN-END:variables
 }

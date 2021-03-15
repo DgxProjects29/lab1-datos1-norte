@@ -81,7 +81,7 @@ public class Product {
             "detalles",
             "precioCompra",
             "stock",
-            "codProvedor",
+            "provedorCod",
         };
     }
 

@@ -36,7 +36,7 @@ public class ForeignController extends BaseController {
         pseudoReader.readRegister();
         while (!pseudoReader.EFO()){
 
-            if (pseudoReader.getField(foreignColumn) == foreignKey){
+            if (pseudoReader.getField(foreignColumn).equals(foreignKey)){
 
                 String[] tableRow = new String[tableColumns.length];
                 for (int i = 0; i < tableColumns.length; i++) {
@@ -59,7 +59,7 @@ public class ForeignController extends BaseController {
 
         pseudoReader.readRegister();
         while (!pseudoReader.EFO()){
-            if (pseudoReader.getField(foreignColumn) != foreignKey){
+            if (!pseudoReader.getField(foreignColumn).equals(foreignKey)){
                 tempRegisters.add(pseudoReader.getCurrRow());
             }
 

@@ -1,20 +1,20 @@
-package adminviews.formviews;
+package clientviews.formviews;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.util.HashMap;
 
 import controllers.BaseController;
-import registerforms.RegisterProvider;
+import registerforms.RegisterPet;
 import forms.Form;
 import forms.FormViewHandler;
 
-public class ProviderViewForm extends javax.swing.JDialog {
+public class PetViewForm extends javax.swing.JDialog {
 
     private int updateRowIndex = -1;
     private BaseController baseController;
 
-    public ProviderViewForm(java.awt.Frame parent, boolean modal) {
+    public PetViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
@@ -30,10 +30,10 @@ public class ProviderViewForm extends javax.swing.JDialog {
 
     public void setFields(HashMap<String, String> currData, int updateRowIndex){
 
-        code_field.setText(currData.get("codigo"));
         name_field.setText(currData.get("nombre"));
-        email_field.setText(currData.get("email")); 
-        tel_field.setText(currData.get("telefono"));
+        breed_field.setText(currData.get("raza"));
+        color_field.setText(currData.get("color")); 
+        birthday_field.setText(currData.get("nacimiento"));
 
         this.updateRowIndex = updateRowIndex;
         accept_form_button.setText("Actualizar cambios");
@@ -58,13 +58,13 @@ public class ProviderViewForm extends javax.swing.JDialog {
         accept_form_button = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         code_label = new javax.swing.JLabel();
-        code_field = new javax.swing.JTextField();
-        name_label = new javax.swing.JLabel();
         name_field = new javax.swing.JTextField();
+        name_label = new javax.swing.JLabel();
+        breed_field = new javax.swing.JTextField();
         emai_label = new javax.swing.JLabel();
-        email_field = new javax.swing.JTextField();
+        color_field = new javax.swing.JTextField();
         tel_label = new javax.swing.JLabel();
-        tel_field = new javax.swing.JTextField();
+        birthday_field = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,7 +76,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         header_title.setForeground(new java.awt.Color(255, 255, 255));
-        header_title.setText("Registrar Provedor");
+        header_title.setText("Registrar Mascota");
         header.add(header_title);
 
         jPanel1.setBackground(new java.awt.Color(249, 247, 247));
@@ -85,7 +85,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
         accept_form_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         accept_form_button.setForeground(new java.awt.Color(255, 255, 255));
         accept_form_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-login-24.png"))); // NOI18N
-        accept_form_button.setText("Añadir Provedor");
+        accept_form_button.setText("Añadir Mascota");
         accept_form_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
         accept_form_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         accept_form_button.addActionListener(new java.awt.event.ActionListener() {
@@ -100,24 +100,8 @@ public class ProviderViewForm extends javax.swing.JDialog {
         code_label.setBackground(new java.awt.Color(247, 249, 249));
         code_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         code_label.setForeground(new java.awt.Color(33, 33, 33));
-        code_label.setText("Codigo:");
+        code_label.setText("Nombre:");
         jPanel3.add(code_label);
-
-        code_field.setBackground(new java.awt.Color(255, 255, 255));
-        code_field.setColumns(15);
-        code_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        code_field.setForeground(new java.awt.Color(33, 33, 33));
-        code_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        code_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        code_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        code_field.setName(""); // NOI18N
-        jPanel3.add(code_field);
-
-        name_label.setBackground(new java.awt.Color(247, 249, 249));
-        name_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        name_label.setForeground(new java.awt.Color(33, 33, 33));
-        name_label.setText("Nombre:");
-        jPanel3.add(name_label);
 
         name_field.setBackground(new java.awt.Color(255, 255, 255));
         name_field.setColumns(15);
@@ -129,37 +113,53 @@ public class ProviderViewForm extends javax.swing.JDialog {
         name_field.setName(""); // NOI18N
         jPanel3.add(name_field);
 
+        name_label.setBackground(new java.awt.Color(247, 249, 249));
+        name_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        name_label.setForeground(new java.awt.Color(33, 33, 33));
+        name_label.setText("Raza:");
+        jPanel3.add(name_label);
+
+        breed_field.setBackground(new java.awt.Color(255, 255, 255));
+        breed_field.setColumns(15);
+        breed_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        breed_field.setForeground(new java.awt.Color(33, 33, 33));
+        breed_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        breed_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        breed_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        breed_field.setName(""); // NOI18N
+        jPanel3.add(breed_field);
+
         emai_label.setBackground(new java.awt.Color(247, 249, 249));
         emai_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         emai_label.setForeground(new java.awt.Color(33, 33, 33));
-        emai_label.setText("Correo:");
+        emai_label.setText("Color:");
         jPanel3.add(emai_label);
 
-        email_field.setBackground(new java.awt.Color(255, 255, 255));
-        email_field.setColumns(15);
-        email_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        email_field.setForeground(new java.awt.Color(33, 33, 33));
-        email_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        email_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        email_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        email_field.setName(""); // NOI18N
-        jPanel3.add(email_field);
+        color_field.setBackground(new java.awt.Color(255, 255, 255));
+        color_field.setColumns(15);
+        color_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        color_field.setForeground(new java.awt.Color(33, 33, 33));
+        color_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        color_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        color_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        color_field.setName(""); // NOI18N
+        jPanel3.add(color_field);
 
         tel_label.setBackground(new java.awt.Color(247, 249, 249));
         tel_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         tel_label.setForeground(new java.awt.Color(33, 33, 33));
-        tel_label.setText("Telefono");
+        tel_label.setText("Nacimiento");
         jPanel3.add(tel_label);
 
-        tel_field.setBackground(new java.awt.Color(255, 255, 255));
-        tel_field.setColumns(15);
-        tel_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        tel_field.setForeground(new java.awt.Color(33, 33, 33));
-        tel_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        tel_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        tel_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        tel_field.setName(""); // NOI18N
-        jPanel3.add(tel_field);
+        birthday_field.setBackground(new java.awt.Color(255, 255, 255));
+        birthday_field.setColumns(15);
+        birthday_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        birthday_field.setForeground(new java.awt.Color(33, 33, 33));
+        birthday_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        birthday_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        birthday_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        birthday_field.setName(""); // NOI18N
+        jPanel3.add(birthday_field);
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -168,7 +168,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 128, Short.MAX_VALUE)
                 .addComponent(accept_form_button)
                 .addGap(93, 93, 93))
         );
@@ -204,11 +204,12 @@ public class ProviderViewForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
-        Form registerForm = new RegisterProvider(
-                code_field.getText(), 
+        Form registerForm = new RegisterPet(
                 name_field.getText(), 
-                email_field.getText(), 
-                tel_field.getText()
+                breed_field.getText(), 
+                color_field.getText(), 
+                birthday_field.getText(),
+                "23"
         );
         FormViewHandler formViewHandler = new FormViewHandler(
             registerForm, baseController
@@ -238,14 +239,18 @@ public class ProviderViewForm extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(PetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
@@ -254,7 +259,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ProviderViewForm dialog = new ProviderViewForm(new javax.swing.JFrame(), true);
+                PetViewForm dialog = new PetViewForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -268,17 +273,17 @@ public class ProviderViewForm extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept_form_button;
-    private javax.swing.JTextField code_field;
+    private javax.swing.JTextField birthday_field;
+    private javax.swing.JTextField breed_field;
     private javax.swing.JLabel code_label;
+    private javax.swing.JTextField color_field;
     private javax.swing.JLabel emai_label;
-    private javax.swing.JTextField email_field;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField name_field;
     private javax.swing.JLabel name_label;
-    private javax.swing.JTextField tel_field;
     private javax.swing.JLabel tel_label;
     // End of variables declaration//GEN-END:variables
 }

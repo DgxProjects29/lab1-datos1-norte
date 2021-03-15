@@ -1,11 +1,71 @@
 package clientviews;
 
+import adminviews.formviews.ProviderViewForm;
+import clientviews.formviews.PetViewForm;
+import controllers.BaseController;
+import controllers.ForeignController;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.WarningDialog;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import models.Pet;
+import pseudofiles.PseudoFile;
+
 
 public class PetClientView extends javax.swing.JPanel {
 
+    private final BaseController controller;
     
     public PetClientView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/mascotas.csv"), 
+            Pet.getColumns()
+        );
+
+        controller = new ForeignController(
+            (DefaultTableModel) pet_table.getModel(), 
+            pseudoFile,
+            "idCliente",
+            "23"
+        );
+        
+        updateTable();
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private boolean deleteWarningDialog(){
+        WarningDialog dialog = new WarningDialog(null, "Advertencia", 
+            "¿Está seguro de eliminar el registro?"
+        );
+        dialog.setVisible(true);
+        return dialog.IsWarningAccepted();
     }
 
     /**
@@ -19,7 +79,7 @@ public class PetClientView extends javax.swing.JPanel {
 
         card_content_layout = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        appo_type_table = new javax.swing.JTable();
+        pet_table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         add_button = new javax.swing.JButton();
         modify_button = new javax.swing.JButton();
@@ -27,19 +87,19 @@ public class PetClientView extends javax.swing.JPanel {
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
 
-        appo_type_table.setModel(new javax.swing.table.DefaultTableModel(
+        pet_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "tipo", "nombre", "precioHora", "precio"
+                "petId", "nombre", "raza", "color", "nacimiento"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -50,7 +110,7 @@ public class PetClientView extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(appo_type_table);
+        jScrollPane1.setViewportView(pet_table);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
@@ -132,25 +192,51 @@ public class PetClientView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        // TODO add your handling code here:
+        PetViewForm dialogForm = new PetViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+        );
+        dialogForm.setBaseController(controller);
+        dialogForm.setVisible(true);
     }//GEN-LAST:event_onAdd
 
     private void onModify(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onModify
-        // TODO add your handling code here:
+        int row = pet_table.getSelectedRow();
+        if (row != -1){
+            PetViewForm dialogForm = new PetViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setFields(controller.getDataFromRow(row), row);
+            dialogForm.setBaseController(controller);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onModify
 
     private void onDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDelete
-        // TODO add your handling code here:
+        int row = pet_table.getSelectedRow();
+        if (row != -1){
+            if(deleteWarningDialog()){
+                controller.getTableModel().removeRow(row);
+                try {
+                    controller.reWriteFile();
+                } catch (IOException e) {
+                    fileExceptionDialog();
+                }
+            }
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onDelete
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;
-    private javax.swing.JTable appo_type_table;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JButton delete_product_button;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton modify_button;
+    private javax.swing.JTable pet_table;
     // End of variables declaration//GEN-END:variables
 }

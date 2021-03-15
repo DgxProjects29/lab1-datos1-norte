@@ -8,8 +8,8 @@ import inevaup.dialogs.InfoDialog.TypeInfoDialog;
 
 public class FormViewHandler {
     
-    private Form form;
-    private BaseController baseController;
+    private final Form form;
+    private final BaseController baseController;
 
     public FormViewHandler(Form form, BaseController baseController) {
         this.form = form;
@@ -26,13 +26,6 @@ public class FormViewHandler {
         }
     }
 
-    private void fileExceptionDialog(){
-        InfoDialog dialog = new InfoDialog(null, "Error", 
-            "Un error inesperado acaba de ocurrir", TypeInfoDialog.ERROR_DIALOG
-        );
-        dialog.setVisible(true);
-    }
-
     public void updateRegister(int row){
         form.validate();
         if (form.isDataValid()){
@@ -47,19 +40,34 @@ public class FormViewHandler {
             invalidFormDialog();
         }
     }
-
-    private void invalidFormDialog(){
+    
+    private void reWriteFile(){
+        try {
+            baseController.reWriteFile();
+            validFormDialog();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+    
+    private void fileExceptionDialog(){
         InfoDialog dialog = new InfoDialog(null, "Error", 
-            form.getErrorMessage(), TypeInfoDialog.ERROR_DIALOG
+            "Lo sentimos un error inesperado acaba de ocurrir", TypeInfoDialog.ERROR_DIALOG
         );
         dialog.setVisible(true);
     }
 
-    private void reWriteFile(){
-        try {
-            baseController.reWriteFile();
-        } catch (IOException e) {
-            fileExceptionDialog();
-        }
+    private void invalidFormDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error en el formulario", 
+            form.getErrorMessage(), TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private void validFormDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Éxito", 
+            "El registro fue creado/actualizado exitosamente", TypeInfoDialog.SUCCESS_DIALOG
+        );
+        dialog.setVisible(true);
     }
 }

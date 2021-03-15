@@ -9,8 +9,8 @@ import pseudofiles.PseudoFileWriter;
 
 public class PseudoWriterForm{
 
-    private Form form;
-    private PseudoFile pseudoFile;
+    private final Form form;
+    private final PseudoFile pseudoFile;
 
     public PseudoWriterForm(Form form, PseudoFile pseudoFile) {
         this.form = form;
@@ -26,6 +26,7 @@ public class PseudoWriterForm{
                 pseudoFileWriter.addRegister(form.getValidRegister());
                 pseudoFileWriter.write();
                 pseudoFileWriter.close();
+                validFormDialog();
             } catch (IOException e) {
                 fileExceptionDialog();
             }
@@ -36,14 +37,21 @@ public class PseudoWriterForm{
 
     private void fileExceptionDialog(){
         InfoDialog dialog = new InfoDialog(null, "Error", 
-            "Un error inesperado acaba de ocurrir", TypeInfoDialog.ERROR_DIALOG
+            "Lo sentimos un error inesperado acaba de ocurrir", TypeInfoDialog.ERROR_DIALOG
         );
         dialog.setVisible(true);
     }
 
     private void invalidFormDialog(){
-        InfoDialog dialog = new InfoDialog(null, "Error", 
+        InfoDialog dialog = new InfoDialog(null, "Error en el formulario", 
             form.getErrorMessage(), TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private void validFormDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Éxito", 
+            "El registro fue creado exitosamente", TypeInfoDialog.ERROR_DIALOG
         );
         dialog.setVisible(true);
     }

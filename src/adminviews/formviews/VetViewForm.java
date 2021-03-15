@@ -1,20 +1,18 @@
+
 package adminviews.formviews;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
-import java.util.HashMap;
-
 import controllers.BaseController;
-import registerforms.RegisterProvider;
 import forms.Form;
 import forms.FormViewHandler;
+import java.awt.Dimension;
+import java.awt.Toolkit;
+import registerforms.RegisterForm;
 
-public class ProviderViewForm extends javax.swing.JDialog {
-
-    private int updateRowIndex = -1;
+public class VetViewForm extends javax.swing.JDialog {
+    
     private BaseController baseController;
-
-    public ProviderViewForm(java.awt.Frame parent, boolean modal) {
+    
+    public VetViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         
@@ -27,18 +25,7 @@ public class ProviderViewForm extends javax.swing.JDialog {
         int y = (int) ((dimension.getHeight() - this.getHeight()) / 2);
         this.setLocation(x, y - 25);
     }
-
-    public void setFields(HashMap<String, String> currData, int updateRowIndex){
-
-        code_field.setText(currData.get("codigo"));
-        name_field.setText(currData.get("nombre"));
-        email_field.setText(currData.get("email")); 
-        tel_field.setText(currData.get("telefono"));
-
-        this.updateRowIndex = updateRowIndex;
-        accept_form_button.setText("Actualizar cambios");
-    }
-
+    
     public void setBaseController(BaseController baseController) {
         this.baseController = baseController;
     }
@@ -55,16 +42,25 @@ public class ProviderViewForm extends javax.swing.JDialog {
         header = new javax.swing.JPanel();
         header_title = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        accept_form_button = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        code_label = new javax.swing.JLabel();
-        code_field = new javax.swing.JTextField();
+        ced_label = new javax.swing.JLabel();
+        ced_field = new javax.swing.JTextField();
+        pass_label = new javax.swing.JLabel();
+        password_field = new javax.swing.JPasswordField();
+        re_pass_label = new javax.swing.JLabel();
+        re_pass_field = new javax.swing.JPasswordField();
         name_label = new javax.swing.JLabel();
         name_field = new javax.swing.JTextField();
+        age_labe = new javax.swing.JLabel();
+        age_field = new javax.swing.JTextField();
         emai_label = new javax.swing.JLabel();
         email_field = new javax.swing.JTextField();
         tel_label = new javax.swing.JLabel();
         tel_field = new javax.swing.JTextField();
+        adress_label = new javax.swing.JLabel();
+        adress_field = new javax.swing.JTextField();
+        register_client_button = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -76,42 +72,58 @@ public class ProviderViewForm extends javax.swing.JDialog {
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         header_title.setForeground(new java.awt.Color(255, 255, 255));
-        header_title.setText("Registrar Provedor");
+        header_title.setText("Registrar Veterinario");
         header.add(header_title);
 
         jPanel1.setBackground(new java.awt.Color(249, 247, 247));
 
-        accept_form_button.setBackground(new java.awt.Color(64, 145, 108));
-        accept_form_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
-        accept_form_button.setForeground(new java.awt.Color(255, 255, 255));
-        accept_form_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-login-24.png"))); // NOI18N
-        accept_form_button.setText("Añadir Provedor");
-        accept_form_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
-        accept_form_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        accept_form_button.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                onAccpetForm(evt);
-            }
-        });
+        jPanel2.setBackground(new java.awt.Color(247, 249, 249));
+        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 40, 30));
 
         jPanel3.setBackground(new java.awt.Color(247, 249, 249));
-        jPanel3.setLayout(new java.awt.GridLayout(4, 2, 0, 10));
+        jPanel3.setLayout(new java.awt.GridLayout(8, 2, 0, 10));
 
-        code_label.setBackground(new java.awt.Color(247, 249, 249));
-        code_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        code_label.setForeground(new java.awt.Color(33, 33, 33));
-        code_label.setText("Codigo:");
-        jPanel3.add(code_label);
+        ced_label.setBackground(new java.awt.Color(247, 249, 249));
+        ced_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        ced_label.setForeground(new java.awt.Color(33, 33, 33));
+        ced_label.setText("Cedula:");
+        jPanel3.add(ced_label);
 
-        code_field.setBackground(new java.awt.Color(255, 255, 255));
-        code_field.setColumns(15);
-        code_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
-        code_field.setForeground(new java.awt.Color(33, 33, 33));
-        code_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
-        code_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
-        code_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
-        code_field.setName(""); // NOI18N
-        jPanel3.add(code_field);
+        ced_field.setBackground(new java.awt.Color(255, 255, 255));
+        ced_field.setColumns(15);
+        ced_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        ced_field.setForeground(new java.awt.Color(33, 33, 33));
+        ced_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        ced_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        ced_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        ced_field.setName(""); // NOI18N
+        jPanel3.add(ced_field);
+
+        pass_label.setBackground(new java.awt.Color(247, 249, 249));
+        pass_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        pass_label.setForeground(new java.awt.Color(33, 33, 33));
+        pass_label.setText("Contraseña:");
+        jPanel3.add(pass_label);
+
+        password_field.setBackground(new java.awt.Color(255, 255, 255));
+        password_field.setColumns(15);
+        password_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        password_field.setForeground(new java.awt.Color(0, 0, 0));
+        password_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        jPanel3.add(password_field);
+
+        re_pass_label.setBackground(new java.awt.Color(247, 249, 249));
+        re_pass_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        re_pass_label.setForeground(new java.awt.Color(33, 33, 33));
+        re_pass_label.setText("Repita Contraseña:");
+        jPanel3.add(re_pass_label);
+
+        re_pass_field.setBackground(new java.awt.Color(255, 255, 255));
+        re_pass_field.setColumns(15);
+        re_pass_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        re_pass_field.setForeground(new java.awt.Color(0, 0, 0));
+        re_pass_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        jPanel3.add(re_pass_field);
 
         name_label.setBackground(new java.awt.Color(247, 249, 249));
         name_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -128,6 +140,22 @@ public class ProviderViewForm extends javax.swing.JDialog {
         name_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
         name_field.setName(""); // NOI18N
         jPanel3.add(name_field);
+
+        age_labe.setBackground(new java.awt.Color(247, 249, 249));
+        age_labe.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        age_labe.setForeground(new java.awt.Color(33, 33, 33));
+        age_labe.setText("Edad");
+        jPanel3.add(age_labe);
+
+        age_field.setBackground(new java.awt.Color(255, 255, 255));
+        age_field.setColumns(15);
+        age_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        age_field.setForeground(new java.awt.Color(33, 33, 33));
+        age_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        age_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        age_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        age_field.setName(""); // NOI18N
+        jPanel3.add(age_field);
 
         emai_label.setBackground(new java.awt.Color(247, 249, 249));
         emai_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
@@ -161,35 +189,65 @@ public class ProviderViewForm extends javax.swing.JDialog {
         tel_field.setName(""); // NOI18N
         jPanel3.add(tel_field);
 
+        adress_label.setBackground(new java.awt.Color(247, 249, 249));
+        adress_label.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        adress_label.setForeground(new java.awt.Color(33, 33, 33));
+        adress_label.setText("Direccion");
+        jPanel3.add(adress_label);
+
+        adress_field.setBackground(new java.awt.Color(255, 255, 255));
+        adress_field.setColumns(15);
+        adress_field.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
+        adress_field.setForeground(new java.awt.Color(33, 33, 33));
+        adress_field.setHorizontalAlignment(javax.swing.JTextField.LEFT);
+        adress_field.setBorder(javax.swing.BorderFactory.createCompoundBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(189, 189, 189)), javax.swing.BorderFactory.createEmptyBorder(7, 7, 7, 7)));
+        adress_field.setMargin(new java.awt.Insets(10, 10, 10, 10));
+        adress_field.setName(""); // NOI18N
+        jPanel3.add(adress_field);
+
+        jPanel2.add(jPanel3);
+
+        register_client_button.setBackground(new java.awt.Color(64, 145, 108));
+        register_client_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        register_client_button.setForeground(new java.awt.Color(255, 255, 255));
+        register_client_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-login-24.png"))); // NOI18N
+        register_client_button.setText("Registrar");
+        register_client_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        register_client_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        register_client_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onAccpetForm(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
-                .addComponent(accept_form_button)
-                .addGap(93, 93, 93))
+                .addGap(19, 19, 19)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(90, 90, 90)
+                .addComponent(register_client_button)
+                .addContainerGap(127, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(171, 171, 171)
-                        .addComponent(accept_form_button)))
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addGap(16, 16, 16)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(15, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(register_client_button)
+                .addGap(181, 181, 181))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
@@ -204,21 +262,22 @@ public class ProviderViewForm extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
-        Form registerForm = new RegisterProvider(
-                code_field.getText(), 
+        Form registerForm = new RegisterForm(
+                ced_field.getText(), 
                 name_field.getText(), 
+                age_field.getText(), 
                 email_field.getText(), 
-                tel_field.getText()
+                tel_field.getText(), 
+                password_field.getText(), 
+                re_pass_field.getText(), 
+                adress_field.getText(), 
+                2
         );
         FormViewHandler formViewHandler = new FormViewHandler(
             registerForm, baseController
         );
-
-        if(updateRowIndex == -1){
-            formViewHandler.writeRegister();
-        }else{
-            formViewHandler.updateRegister(updateRowIndex);
-        }
+        formViewHandler.writeRegister();
+        
     }//GEN-LAST:event_onAccpetForm
 
     /**
@@ -238,23 +297,21 @@ public class ProviderViewForm extends javax.swing.JDialog {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ProviderViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(VetViewForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                ProviderViewForm dialog = new ProviderViewForm(new javax.swing.JFrame(), true);
+                VetViewForm dialog = new VetViewForm(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -267,17 +324,26 @@ public class ProviderViewForm extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton accept_form_button;
-    private javax.swing.JTextField code_field;
-    private javax.swing.JLabel code_label;
+    private javax.swing.JTextField adress_field;
+    private javax.swing.JLabel adress_label;
+    private javax.swing.JTextField age_field;
+    private javax.swing.JLabel age_labe;
+    private javax.swing.JTextField ced_field;
+    private javax.swing.JLabel ced_label;
     private javax.swing.JLabel emai_label;
     private javax.swing.JTextField email_field;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JTextField name_field;
     private javax.swing.JLabel name_label;
+    private javax.swing.JLabel pass_label;
+    private javax.swing.JPasswordField password_field;
+    private javax.swing.JPasswordField re_pass_field;
+    private javax.swing.JLabel re_pass_label;
+    private javax.swing.JButton register_client_button;
     private javax.swing.JTextField tel_field;
     private javax.swing.JLabel tel_label;
     // End of variables declaration//GEN-END:variables

@@ -45,13 +45,13 @@ public class RegisterForm implements Form {
         try {
 
             validateDataTypes();
-            checkAgeRange();
+            //checkAgeRange();
             //checkEmail();
             //checkPassword();
-            checkSizeAdress();
-            checkSizePhone();
-            checkSizeName();
-            checkSizeId();
+            //checkSizeAdress();
+            //checkSizePhone();
+            //checkSizeName();
+            //checkSizeId();
 
         } catch (ValidationError e) {
             isDataValid = false;
