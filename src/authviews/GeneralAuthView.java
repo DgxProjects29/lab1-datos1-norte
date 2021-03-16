@@ -5,13 +5,14 @@ import clientviews.ClientView;
 import clientviews.RegisterViewForm;
 import inevaup.dialogs.InfoDialog;
 import inevaup.dialogs.InfoDialog.TypeInfoDialog;
-import inevaup.dialogs.WarningDialog;
+import models.Client;
+import models.Veterinarian;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.IOException;
 import pseudofiles.PseudoFile;
-import pseudofiles.PseudoFileReader;
+import vetapp.AuthManager;
 import vetviews.VetView;
 
 public class GeneralAuthView extends javax.swing.JFrame {
@@ -342,52 +343,62 @@ public class GeneralAuthView extends javax.swing.JFrame {
 
     private void onClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onClientLogin
         PseudoFile pseudoFile = new PseudoFile(
-                new File("data/clientes.csv"),
-                new String[]{"cedula", "nombre", "telefono", "direccion", "contraseña", "correo", "edad"}
+            new File("data/clientes.csv"),
+            Client.getColumns()
         );
-        boolean x;
-        AuthLogic authLogic = new AuthLogic();
-        x=authLogic.autenticacion(pseudoFile, client_ced_field.getText(), client_password_field.getText());
+
+        boolean isAuthenticated;
+        AuthManager auth = AuthManager.getAuth();
+        isAuthenticated = auth.authenticate(
+            pseudoFile, 
+            client_ced_field.getText(), 
+            client_password_field.getText()
+        );
        
-            if (x) {
-                ClientView clientView = new ClientView();
-                clientView.setVisible(true);
-                this.dispose();
-            } else {
-                InfoDialog infoDialog = new InfoDialog(
-                        null,
-                        "Error",
-                        "Usuario y/o Contraseña incorrectos",
-                        TypeInfoDialog.ERROR_DIALOG
-                );
-                infoDialog.setVisible(true);
-            }
+        if (isAuthenticated) {
+            ClientView clientView = new ClientView();
+            clientView.setVisible(true);
+            this.dispose();
+        } else {
+            InfoDialog infoDialog = new InfoDialog(
+                null,
+                "Error",
+                "Usuario y/o Contraseña incorrectos",
+                TypeInfoDialog.ERROR_DIALOG
+            );
+            infoDialog.setVisible(true);
+        }
         
 
     }//GEN-LAST:event_onClientLogin
 
     private void onVetLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onVetLogin
-      PseudoFile pseudoFile = new PseudoFile(
-                new File("data/veterinarios.csv"),
-                new String[]{"cedula", "nombre", "telefono", "direccion", "contraseña", "correo", "edad"}
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/veterinarios.csv"),
+            Veterinarian.getColumns()
         );
-        boolean x;
-        AuthLogic authLogic = new AuthLogic();
-        x=authLogic.autenticacion(pseudoFile, vet_ced_field.getText(), vet_password_field.getText());
+
+        boolean isAuthenticated;
+        AuthManager auth = AuthManager.getAuth();
+        isAuthenticated = auth.authenticate(
+            pseudoFile, 
+            vet_ced_field.getText(), 
+            vet_password_field.getText()
+        );
        
-            if (x) {
-                ClientView clientView = new ClientView();
-                clientView.setVisible(true);
-                this.dispose();
-            } else {
-                InfoDialog infoDialog = new InfoDialog(
-                        null,
-                        "Error",
-                        "Usuario y/o Contraseña incorrectos",
-                        TypeInfoDialog.ERROR_DIALOG
-                );
-                infoDialog.setVisible(true);
-            }
+        if (isAuthenticated) {
+            VetView vetView = new VetView();
+            vetView.setVisible(true);
+            this.dispose();
+        } else {
+            InfoDialog infoDialog = new InfoDialog(
+                null,
+                "Error",
+                "Usuario y/o Contraseña incorrectos",
+                TypeInfoDialog.ERROR_DIALOG
+            );
+            infoDialog.setVisible(true);
+        }
     }//GEN-LAST:event_onVetLogin
 
     private void onAdminLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdminLogin

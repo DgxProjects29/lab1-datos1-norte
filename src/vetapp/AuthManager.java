@@ -1,7 +1,9 @@
 package vetapp;
 
+import java.io.IOException;
 import java.util.HashMap;
 import pseudofiles.PseudoFile;
+import pseudofiles.PseudoFileReader;
 
 
 public class AuthManager {
@@ -35,6 +37,30 @@ public class AuthManager {
 
     public void setPseudoFile(PseudoFile pseudoFile) {
         this.pseudoFile = pseudoFile;
-    } 
+    }
+    
+    public boolean authenticate(PseudoFile pseudoFile, String ced, String password) {
+        
+        boolean isAuthenticated = false;
+        try {
+
+            PseudoFileReader pseudoReader = new PseudoFileReader(pseudoFile);
+            pseudoReader.readRegister();
+            while (!pseudoReader.EFO() && !isAuthenticated) {
+                if (((pseudoReader.getField("cedula")).equals(ced))
+                        && ((pseudoReader.getField("contraseña")).equals(password))) {
+                    isAuthenticated = true;
+                    setAuthData(new HashMap<>(pseudoReader.getCurrRegister()));
+                    setPseudoFile(pseudoFile);
+                }
+                pseudoReader.readRegister();
+            }
+            pseudoReader.close();
+            
+        } catch (IOException e) {
+           
+        } 
+        return isAuthenticated;
+    }
     
 }

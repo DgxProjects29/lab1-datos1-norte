@@ -1,16 +1,15 @@
 
 package clientviews;
 
+import authviews.ProfileView;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
-
 public class ClientView extends javax.swing.JFrame {
 
     private CardLayout card_layout;
-    
-    
+
     public ClientView() {
         initComponents();
         
@@ -27,7 +26,7 @@ public class ClientView extends javax.swing.JFrame {
     
     private void startCardLayout(){
     
-        ClientProfile clientProfile = new ClientProfile();
+        ProfileView clientProfile = new ProfileView();
         PetClientView petClientView = new PetClientView();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());

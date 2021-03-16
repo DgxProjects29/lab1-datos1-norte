@@ -1,5 +1,6 @@
 package vetviews;
 
+import authviews.ProfileView;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -26,7 +27,7 @@ public class VetView extends javax.swing.JFrame {
     
     private void startCardLayout(){
     
-        VetProfile vetProfile = new VetProfile();
+        ProfileView vetProfile = new ProfileView();
         VetAppoimentView vetAppoimentView = new VetAppoimentView();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());

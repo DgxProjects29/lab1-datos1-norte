@@ -4,9 +4,10 @@ import controllers.BaseController;
 import controllers.ForeignController;
 import forms.Form;
 import forms.FormViewHandler;
+import inevaup.dialogs.InfoDialog;
+import java.io.IOException;
 import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
-import pseudofiles.PseudoFile;
 import registerforms.RegisterForm;
 import vetapp.AuthManager;
 
@@ -15,19 +16,32 @@ public class ProfileView extends javax.swing.JPanel {
     private final AuthManager auth;
     private final BaseController baseController;
     
-    public ProfileView(PseudoFile pseudoFile) {
+    public ProfileView() {
         initComponents();
         
         auth = AuthManager.getAuth();
         
         baseController = new ForeignController(
-            new DefaultTableModel(pseudoFile.getColumns(), 0), 
-            pseudoFile,
+            new DefaultTableModel(auth.getPseudoFile().getColumns(), 0), 
+            auth.getPseudoFile(),
             "cedula",
             auth.getAuthData().get("cedula")
         );
         
+        try {
+            baseController.updateTable();
+        } catch (IOException ex) {
+            fileExceptionDialog();
+        }
+        
         setFields();
+    }
+    
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
     }
     
     private void setFields(){
@@ -272,9 +286,6 @@ public class ProfileView extends javax.swing.JPanel {
             registerForm, baseController
         );
         formViewHandler.updateRegister(0);
-        //controller.reWriteFile();
-        
-
     }//GEN-LAST:event_OnAccptForm
 
 

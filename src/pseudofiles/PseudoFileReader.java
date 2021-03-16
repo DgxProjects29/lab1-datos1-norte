@@ -52,6 +52,10 @@ public class PseudoFileReader {
         return currRow;
     }
 
+    public HashMap<String, String> getCurrRegister() {
+        return currRegister;
+    }
+
     public boolean EFO(){
         return efoState;
     }
