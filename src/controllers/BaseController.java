@@ -53,4 +53,7 @@ public abstract class BaseController {
         return tableModel;
     }
     
+    public PseudoFile getPseudoFile(){
+        return pseudoFile;
+    }
 }

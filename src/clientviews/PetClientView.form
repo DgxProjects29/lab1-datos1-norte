@@ -71,14 +71,15 @@
 
           <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
           <SubComponents>
-            <Component class="javax.swing.JTable" name="appo_type_table">
+            <Component class="javax.swing.JTable" name="pet_table">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="4" rowCount="0">
-                    <Column editable="false" title="tipo" type="java.lang.String"/>
+                  <Table columnCount="5" rowCount="0">
+                    <Column editable="false" title="petId" type="java.lang.String"/>
                     <Column editable="false" title="nombre" type="java.lang.String"/>
-                    <Column editable="false" title="precioHora" type="java.lang.String"/>
-                    <Column editable="false" title="precio" type="java.lang.String"/>
+                    <Column editable="false" title="raza" type="java.lang.String"/>
+                    <Column editable="false" title="color" type="java.lang.String"/>
+                    <Column editable="false" title="nacimiento" type="java.lang.String"/>
                   </Table>
                 </Property>
               </Properties>

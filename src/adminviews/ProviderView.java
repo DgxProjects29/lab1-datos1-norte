@@ -6,6 +6,7 @@ import controllers.BaseController;
 import controllers.SimpleController;
 import inevaup.dialogs.InfoDialog;
 import inevaup.dialogs.InfoDialog.TypeInfoDialog;
+import inevaup.dialogs.WarningDialog;
 import models.Provider;
 import pseudofiles.PseudoFile;
 
@@ -18,7 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 public class ProviderView extends javax.swing.JPanel {
 
-    private BaseController controller;
+    private final BaseController controller;
 
     public ProviderView() {
         initComponents();
@@ -53,10 +54,18 @@ public class ProviderView extends javax.swing.JPanel {
 
     private void pickARowDialog(){
         InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
-            "Por favor seleciona un registro a actualizar", 
+            "Por favor seleciona un registro", 
             TypeInfoDialog.INFO_DIALOG
         );
         dialog.setVisible(true);
+    }
+    
+    private boolean deleteWarningDialog(){
+        WarningDialog dialog = new WarningDialog(null, "Advertencia", 
+            "¿Está seguro de eliminar el registro?"
+        );
+        dialog.setVisible(true);
+        return dialog.IsWarningAccepted();
     }
 
     /**
@@ -209,11 +218,13 @@ public class ProviderView extends javax.swing.JPanel {
     private void onDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onDelete
         int row = provider_appo_table.getSelectedRow();
         if (row != -1){
-            controller.getTableModel().removeRow(row);
-            try {
-                controller.reWriteFile();
-            } catch (IOException e) {
-                fileExceptionDialog();
+            if(deleteWarningDialog()){
+                controller.getTableModel().removeRow(row);
+                try {
+                    controller.reWriteFile();
+                } catch (IOException e) {
+                    fileExceptionDialog();
+                }
             }
         }else{
             pickARowDialog();

@@ -83,7 +83,7 @@ public class Pet {
 
     public static String[] getColumns(){
         return new String[]{
-            "id",
+            "petId",
             "nombre",
             "raza",
             "color",
