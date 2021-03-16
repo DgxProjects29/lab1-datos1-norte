@@ -15,6 +15,8 @@ public class RegisterProvider implements Form {
     private boolean isDataValid;
     private String errorMessage;
 
+    private Validation validation = new Validation();
+
     public RegisterProvider(String codigo, String name, String correo,
             String telefono) {
         this.codigo = codigo;
@@ -30,9 +32,10 @@ public class RegisterProvider implements Form {
     public void validate() {
         try {
             validateDataTypes();
-            //checkSizeName();
-            //checkEmail();
-            //checkSizePhone();
+            checkSizeCode();
+            checkSizeName();
+            checkEmail();
+            checkSizePhone();
 
         } catch (ValidationError e) {
             isDataValid = false;
@@ -54,35 +57,16 @@ public class RegisterProvider implements Form {
         }
 
     }
-     private void checkSizeName() throws ValidationError {
-        String namer = name;
-        if (namer.length() >= 14 && namer.length() <= 30) {
-            int i = 1, sw = 0, seg = 0;
-            while (i < namer.length()) {
 
-                if (namer.substring(i, i + 1).equals(" ") && seg >= 3) {
-                    sw += 1;
+    private void checkSizeName() throws ValidationError {
 
-                }
+        if (validation.validateCharField(name, 15, 30)) {
 
-                if (!(namer.substring(i, i + 1).equals(" "))) {
-                    seg += 1;
-
-                } else {
-
-                    seg = 0;
-
-                }
-
-            }
-            //si sw < 2 eso quiere decir que hay menos de dos especios entre 
-            //tres caracteres consecutivos 
-            if (sw < 2) {
-                throw new ValidationError("Nombre invalido");
-            }
         } else {
 
-            throw new ValidationError("Nombre invalido");
+             throw new ValidationError("Nombre invalido. Por favor, asegurese de "
+                    + "que el nombre suministrado se encuentre entre 15 y 30 "
+                    + "caracteres. Recuerda que debes ingresar tu nombre completo (nombre y apellidos)");
 
         }
 
@@ -91,51 +75,51 @@ public class RegisterProvider implements Form {
     //validar telefono
     private void checkSizePhone() throws ValidationError {
         String phone = telefono;
-        if (phone.length() >= 7 && phone.length() <= 12) {
+        if (validation.validateCharField(telefono, 7, 13)) {
 
         } else {
 
-            throw new ValidationError("Telefono invalido");
+           throw new ValidationError("Telefono invalido. Por favor, asegurese"
+                    + "que el telefono suministrado se encuentre entre 7 y 13"
+                    + "caracteres ");
 
         }
 
     }
-     //validar correo
+
+    //validar correo
+
     private void checkEmail() throws ValidationError {
-        String email = correo;
-        if (email.length() >= 15 && email.length() <= 30) {
-            int i = 1, sw = 0;
-            do {
-
-                if (email.substring(i, i + 1).equals("@")) {
-
-                    sw++;
-
-                }
-
-                if (email.substring(i, i + 4).equals(".com") || (email.
-                        substring(i, i + 3)).equals(".co")) {
-
-                    sw++;
-
-                }
-
-                i++;
-            } while (sw < 2 && i < email.length());
-
-            if (sw < 2) {
-                throw new ValidationError("Correo invalido");
-            }
-
+          if(validation.validateCharField(correo, 17, 40) &&  
+                validation.isaEmail(correo)){
+        
         } else {
-            throw new ValidationError("Correo invalido");
+        
+        throw new ValidationError("El correo ingresado no es valido. "
+                + "Por favor, asegurese de escribir un correo"
+                + " entre 17 y 40 caracteres, y que contenga solo un arroba y "
+                + "la terminación '.co' o .'com' ");
         }
 
     }
+    
+    //validar el tamaño del codigo 
+    
+    private void checkSizeCode() throws ValidationError {
+      
+        if (validation.validateCharField(codigo, 1, 50)) {
+           
+        } else {
 
-     @Override
+            throw new ValidationError("Codigo invalido. Por favor, asegurese de "
+                    + "que el codigo suministrado se encuentre entre 1 y 50 caracteres. ");
+
+        }
+    }
+
+    @Override
     public boolean isDataValid() {
-       return isDataValid;
+        return isDataValid;
     }
 
     @Override
@@ -145,7 +129,7 @@ public class RegisterProvider implements Form {
 
     @Override
     public String[] getValidRegister() {
-         return new String[]{codigo, name, correo, telefono}; 
+        return new String[]{codigo, name, correo, telefono};
     }
 
 }

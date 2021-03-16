@@ -2,7 +2,6 @@ package registerforms;
 
 import forms.Form;
 import forms.ValidationError;
-import java.util.Calendar;
 import models.Client;
 import models.Veterinarian;
 
@@ -22,6 +21,7 @@ public class RegisterForm implements Form {
     private Veterinarian veterinarian;
     private boolean isDataValid;
     private String errorMessage;
+    private Validation validation = new Validation(); 
 
     //1    constructor para el usuario
     public RegisterForm(String cedula, String name, String edad, String correo,
@@ -105,10 +105,10 @@ public class RegisterForm implements Form {
 
         int edadaux = Integer.parseInt(edad);
 
-        if (edadaux >= 18 && edadaux <= 110) {
+        if (validation.validateIntegerField(edadaux, 12, 118)) {
 
         } else {
-            throw new ValidationError("Edad Invalida");
+            throw new ValidationError("Edad Invalida. Para crear una cuenta debes ser mayor de 12 años");
 
         }
 
@@ -116,48 +116,30 @@ public class RegisterForm implements Form {
 
     //validar correo
     private void checkEmail() throws ValidationError {
-        String email = correo;
-        if (email.length() >= 15 && email.length() <= 30) {
-            int i = 1, sw = 0;
-            do {
-
-                if (email.substring(i, i + 1).equals("@")) {
-
-                    sw++;
-
-                }
-
-                if (email.substring(i, i + 4).equals(".com") || (email.
-                        substring(i, i + 3)).equals(".co")) {
-
-                    sw++;
-
-                }
-
-                i++;
-            } while (sw < 2 && i < email.length());
-
-            if (sw < 2) {
-                throw new ValidationError("Correo invalido");
-            }
-
+        if(validation.validateCharField(correo, 17, 40) &&  
+                validation.isaEmail(correo)){
+        
         } else {
-            throw new ValidationError("Correo invalido");
+        
+        throw new ValidationError("El correo ingresado no es valido. "
+                + "Por favor, asegurese de escribir un correo"
+                + " entre 17 y 40 caracteres, y que contenga solo un arroba y "
+                + "la terminación '.co' o .'com' ");
         }
-
+        
     }
 
     //validar contraseña
     private void checkPassword() throws ValidationError {
-        String password = contrasena;
-        String vPassword = contrasenaconfirmada;
+        
 
-        if (password.length() >= 8 && password.length() <= 20) {
+        if (validation.validateCharField(contrasena, 8, 17)) {
           
             if(tipo == 1){
             
-            if (!(password.equals(vPassword))) {
-                throw new ValidationError("Las contraseñas no coinciden");
+            if (!(contrasena.equals(contrasenaconfirmada))) {
+                throw new ValidationError("Las contraseñas suministradas no "
+                        + "coinciden. Por favor, vuelva a digitarlas");
             }
             
             }
@@ -165,7 +147,9 @@ public class RegisterForm implements Form {
 
         } else {
 
-            throw new ValidationError("contraseña debil");
+            throw new ValidationError("Contraseña debil. Por favor, revise "
+                    + "que las contraseñas tengan más de 7 y menos de 18 "
+                    + "caracteres");
 
         }
 
@@ -173,12 +157,12 @@ public class RegisterForm implements Form {
 
     //validar Direccion
     private void checkSizeAdress() throws ValidationError {
-        String adress = direccion;
-        if (adress.length() >= 15 && adress.length() <= 30) {
+        
+        if (validation.validateCharField(direccion, 16, 30)) {
 
         } else {
 
-            throw new ValidationError("Direccion invalida");
+            throw new ValidationError("Direccion invalida. Por favor, percatese de que la dirección suministrada esté entre los 16 y 30 caracteres");
 
         }
 
@@ -186,33 +170,14 @@ public class RegisterForm implements Form {
 
     //validar nombre 
     private void checkSizeName() throws ValidationError {
-        String namer = name;
-        if (namer.length() >= 14 && namer.length() <= 30) {
-            int i = 1, sw = 0, seg = 0;
-            while (i < namer.length()) {
-
-                if (namer.substring(i, i + 1).equals(" ") && seg >= 3) {
-                    sw += 1;
-
-                }
-
-                if (!(namer.substring(i, i + 1).equals(" "))) {
-                    seg += 1;
-
-                } else {
-
-                    seg = 0;
-
-                }
-
-            }
-            //si sw < 2 eso quiere decir que hay menos de dos especios entre tres caracteres consecutivos 
-            if (sw < 2) {
-                throw new ValidationError("Nombre invalido");
-            }
+      
+        if (validation.validateCharField(name, 15, 30)) {
+           
         } else {
 
-            throw new ValidationError("Nombre invalido");
+            throw new ValidationError("Nombre invalido. Por favor, asegurese de "
+                    + "que el nombre suministrado se encuentre entre 15 y 30 "
+                    + "caracteres. Recuerda que debes ingresar tu nombre completo (nombre y apellidos)");
 
         }
 
@@ -220,12 +185,14 @@ public class RegisterForm implements Form {
 
     //validar telefono
     private void checkSizePhone() throws ValidationError {
-        String phone = telefono;
-        if (phone.length() >= 7 && phone.length() <= 12) {
+        
+        if (validation.validateCharField(telefono, 7, 13)) {
 
         } else {
 
-            throw new ValidationError("Telefono invalido");
+            throw new ValidationError("Telefono invalido. Por favor, asegurese"
+                    + "que el telefono suministrado se encuentre entre 7 y 13"
+                    + "caracteres ");
 
         }
 
@@ -233,12 +200,14 @@ public class RegisterForm implements Form {
 
     //validar cedula
     private void checkSizeId() throws ValidationError {
-        String id = cedula;
-        if (id.length() >= 7 && id.length() <= 12) {
+
+        if (validation.validateCharField(cedula, 7, 12)) {
 
         } else {
 
-            throw new ValidationError("Cedula invalida");
+            throw new ValidationError(" Cedula invalida. Por favor, asegurese "
+                    + "que el telefono suministrado se encuentre entre 7 y 12"
+                    + "caracteres ");
 
         }
 
