@@ -1,6 +1,6 @@
 package vetapp;
 
-import authviews.GeneralAuthView;
+import views.authviews.GeneralAuthView;
 import com.formdev.flatlaf.FlatLightLaf;
 
 public class VetApp {

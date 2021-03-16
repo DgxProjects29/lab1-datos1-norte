@@ -88,7 +88,7 @@ public class Pet {
             "raza",
             "color",
             "nacimiento",
-            "idCliente",
+            "clientCed"
         };
     }
 
