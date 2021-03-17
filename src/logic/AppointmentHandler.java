@@ -54,16 +54,18 @@ public class AppointmentHandler {
 
     }
 
-    public void filterDates(PseudoFile appoimentFile){
+    public void filterDates(PseudoFile appoimentFile, String vetCed){
         try {
             PseudoFileReader pseudoReader = new PseudoFileReader(appoimentFile);
 
             pseudoReader.readRegister();
             while (!pseudoReader.EFO()){
                 
-                avaliableDates.removeIf(
-                    s -> s.equals(pseudoReader.getField("empieza"))
-                );
+                if(pseudoReader.getField("cedVet").equals(vetCed)){
+                    avaliableDates.removeIf(
+                        s -> s.equals(pseudoReader.getField("empieza"))
+                    );
+                }
 
                 pseudoReader.readRegister();
             }

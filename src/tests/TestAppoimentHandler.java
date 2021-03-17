@@ -11,12 +11,12 @@ public class TestAppoimentHandler {
         
         PseudoFile pseudoFile = new PseudoFile(
             new File("src/tests/testdata/appotest.csv"),
-            new String[]{"id", "empieza"}
+            new String[]{"idCita", "empieza", "cedVet"}
         );
 
         AppointmentHandler apo = new AppointmentHandler();
         apo.generateDates();
-        apo.filterDates(pseudoFile);
+        apo.filterDates(pseudoFile, "200");
         
         ArrayList<String> dates = apo.getAvaliableDates();
         for (String string : dates) {
