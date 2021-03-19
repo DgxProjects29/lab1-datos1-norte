@@ -7,12 +7,16 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
 
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+
 import forms.Form;
 import forms.PseudoWriterForm;
 import forms.registerforms.RegisterAppointment;
 import java.awt.event.ActionEvent;
 import models.AppointmentType;
 import pseudofiles.PseudoFile;
+import views.vetviews.VetReviewView;
 import logic.AppointmentHandler;
 import logic.AssociativeCombo;
 import logic.AssociativeForeignCombo;
@@ -298,7 +302,11 @@ public class AppoimentViewForm extends javax.swing.JDialog {
     }//GEN-LAST:event_onAccpetForm
 
     private void onVetReviwes(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onVetReviwes
-        // TODO add your handling code here:
+        VetReviewView dialogForm = new VetReviewView(
+            (JFrame) SwingUtilities.getWindowAncestor(this), true
+        );
+        dialogForm.setCedVet(vetCombo.getRealValue());
+        dialogForm.setVisible(true);
     }//GEN-LAST:event_onVetReviwes
 
     /**
