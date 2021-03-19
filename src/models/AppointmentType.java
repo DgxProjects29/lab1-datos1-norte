@@ -74,7 +74,7 @@ public class AppointmentType {
     
     public static String[] getColumns(){
         return new String[]{
-           "tipo", "nombre", "precioHora", "precio"
+           "tipo", "nombre", "tiempo", "precioHora", "precio"
            
         };
     }

@@ -1,21 +1,58 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package views.adminviews;
 
-/**
- *
- * @author User
- */
+import controllers.BaseController;
+import controllers.SimpleController;
+import inevaup.dialogs.InfoDialog;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+import models.Appointment;
+import pseudofiles.PseudoFile;
+import pseudofiles.PseudoFileWriter;
+
+
 public class PendingAppoimentView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PendingAppoimentView
-     */
+    private final BaseController controller;
+    
     public PendingAppoimentView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/citas_pendientes.csv"), 
+            Appointment.getColumns()
+        );
+
+        controller = new SimpleController(
+            (DefaultTableModel) pending_appo_table.getModel(), 
+            pseudoFile
+        );
+        
+        updateTable();
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
     }
 
     /**
@@ -39,14 +76,14 @@ public class PendingAppoimentView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "idCita", "tipoCita", "empieza", "termina", "idMascota", "cedVet"
+                "idCita", "tipoCita", "empieza", "idMascota", "cedVet"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -67,7 +104,7 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         accept_appo.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         accept_appo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                accept_appoonClientLogin(evt);
+                onAcceptAppoiment(evt);
             }
         });
 
@@ -76,21 +113,20 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         card_content_layoutLayout.setHorizontalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(card_content_layoutLayout.createSequentialGroup()
-                .addGroup(card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(card_content_layoutLayout.createSequentialGroup()
-                        .addGap(81, 81, 81)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(card_content_layoutLayout.createSequentialGroup()
-                        .addGap(305, 305, 305)
-                        .addComponent(accept_appo)))
-                .addContainerGap(99, Short.MAX_VALUE))
+                .addGap(305, 305, 305)
+                .addComponent(accept_appo)
+                .addContainerGap(326, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(84, 84, 84))
         );
         card_content_layoutLayout.setVerticalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
+                .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
+                .addGap(54, 54, 54)
                 .addComponent(accept_appo)
                 .addContainerGap(51, Short.MAX_VALUE))
         );
@@ -107,10 +143,44 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void accept_appoonClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_accept_appoonClientLogin
+    private void onAcceptAppoiment(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAcceptAppoiment
 
-    }//GEN-LAST:event_accept_appoonClientLogin
-
+        int row = pending_appo_table.getSelectedRow();
+        if (row != -1){
+            try {
+                registerAppoiment(row);
+                controller.getTableModel().removeRow(row);
+                controller.reWriteFile();
+            } catch (IOException e) {
+                fileExceptionDialog();
+            }
+            
+        }else{
+            pickARowDialog();
+        }
+    }//GEN-LAST:event_onAcceptAppoiment
+    
+    private void registerAppoiment(int row) throws IOException{
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/citas.csv")
+        );
+        
+        String[] appoiment = new String[]{
+            (String)controller.getTableModel().getValueAt(row, 0),
+            (String)controller.getTableModel().getValueAt(row, 1),
+            (String)controller.getTableModel().getValueAt(row, 2),
+            (String)controller.getTableModel().getValueAt(row, 3),
+            (String)controller.getTableModel().getValueAt(row, 4)
+        };
+        
+        PseudoFileWriter pseudoFileWriter 
+            = new PseudoFileWriter(pseudoFile, true);
+        pseudoFileWriter.addRegister(appoiment);
+        pseudoFileWriter.write();
+        pseudoFileWriter.close();
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept_appo;

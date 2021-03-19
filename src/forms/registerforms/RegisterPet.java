@@ -85,6 +85,9 @@ public class RegisterPet implements Form {
         
         for (int i = 0; i < 5; i++) {
             int randomnumber = random.nextInt(93) + 33;
+            if (randomnumber == 44){
+                randomnumber++;
+            }
             char sigla;
             sigla = (char)randomnumber;
             

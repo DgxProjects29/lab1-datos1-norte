@@ -1,9 +1,59 @@
 package views.adminviews;
 
-public class AppoimentView extends javax.swing.JPanel {
+import controllers.BaseController;
+import controllers.SimpleController;
+import inevaup.dialogs.InfoDialog;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.table.DefaultTableModel;
+import models.Appointment;
+import pseudofiles.PseudoFile;
 
+public class AppoimentView extends javax.swing.JPanel {
+    
+    private final BaseController controller;
+    
     public AppoimentView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/citas.csv"), 
+            Appointment.getColumns()
+        );
+
+        controller = new SimpleController(
+            (DefaultTableModel) appo_table.getModel(), 
+            pseudoFile
+        );
+  
+        setListeners();
+        
+    }
+    
+    private void setListeners(){
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent evt) {
+                 updateTable();
+            }
+        });
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+    
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
     }
 
     /**
@@ -26,14 +76,14 @@ public class AppoimentView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "idCita", "tipoCita", "empieza", "termina", "idMascota", "cedVet"
+                "idCita", "tipoCita", "empieza", "idMascota", "cedVet"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {

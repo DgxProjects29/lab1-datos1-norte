@@ -5,6 +5,11 @@ import views.authviews.ProfileView;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.io.File;
+import models.Appointment;
+import pseudofiles.PseudoFile;
+import vetapp.AuthManager;
+import views.clientviews.formviews.AppoimentViewForm;
 
 public class ClientView extends javax.swing.JFrame {
 
@@ -160,7 +165,15 @@ public class ClientView extends javax.swing.JFrame {
     }//GEN-LAST:event_onProfile
 
     private void onCreateAppoiment(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateAppoiment
+        PseudoFile pendingAppoFile = new PseudoFile(
+            new File("data/citas_pendientes.csv"), 
+            Appointment.getColumns()
+        );
         
+        AppoimentViewForm appoView = new AppoimentViewForm(this, true);
+        appoView.setSaveAppoFile(pendingAppoFile);
+        appoView.setPetModels(AuthManager.getAuth().getAuthData().get("cedula"));
+        appoView.setVisible(true);
     }//GEN-LAST:event_onCreateAppoiment
 
     private void onPet(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onPet

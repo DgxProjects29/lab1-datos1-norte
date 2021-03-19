@@ -79,6 +79,9 @@ public class RegisterAppointment implements Form {
         
         for (int i = 0; i < 5; i++) {
             int randomnumber = random.nextInt(93) + 33;
+            if (randomnumber == 44){
+                randomnumber++;
+            }
             char sigla;
             sigla = (char)randomnumber;
             
@@ -104,7 +107,7 @@ public class RegisterAppointment implements Form {
 
     @Override
     public String[] getValidRegister() {
-        return new String[]{id, citainicio, tipo, petId, vetcedula};
+        return new String[]{id, tipo, citainicio, petId, vetcedula};
     }
 
 }

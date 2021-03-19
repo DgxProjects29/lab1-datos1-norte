@@ -33,10 +33,12 @@ public class AdminView extends javax.swing.JFrame {
         ProviderView providerView = new ProviderView();
         VetsView vetsView = new VetsView();
         AppoTypeView appoTypeView = new AppoTypeView();
+        AdminAppoCreateView apcreate = new AdminAppoCreateView();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());
         card_content_layout.add(pendingAppoimentView, "pendingAppoimentView");
         card_content_layout.add(appoimentView, "appoimentView");
+        card_content_layout.add(apcreate, "apcreate");
         card_content_layout.add(productView, "productView");
         card_content_layout.add(providerView, "providerView");
         card_content_layout.add(vetsView, "vetsView");
@@ -59,6 +61,7 @@ public class AdminView extends javax.swing.JFrame {
         jPanel2 = new javax.swing.JPanel();
         pending_appo_button = new javax.swing.JButton();
         appo_button = new javax.swing.JButton();
+        create_appo_button = new javax.swing.JButton();
         product_button = new javax.swing.JButton();
         provider_button = new javax.swing.JButton();
         vet_button = new javax.swing.JButton();
@@ -83,7 +86,7 @@ public class AdminView extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(247, 249, 249));
 
         jPanel2.setBackground(new java.awt.Color(247, 249, 249));
-        jPanel2.setLayout(new java.awt.GridLayout(7, 1, 5, 10));
+        jPanel2.setLayout(new java.awt.GridLayout(8, 1, 5, 10));
 
         pending_appo_button.setBackground(new java.awt.Color(64, 145, 108));
         pending_appo_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -110,6 +113,19 @@ public class AdminView extends javax.swing.JFrame {
             }
         });
         jPanel2.add(appo_button);
+
+        create_appo_button.setBackground(new java.awt.Color(64, 145, 108));
+        create_appo_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        create_appo_button.setForeground(new java.awt.Color(255, 255, 255));
+        create_appo_button.setText("Agendar Cita");
+        create_appo_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 25, 5, 25));
+        create_appo_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        create_appo_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onCreateAppo(evt);
+            }
+        });
+        jPanel2.add(create_appo_button);
 
         product_button.setBackground(new java.awt.Color(64, 145, 108));
         product_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -189,8 +205,8 @@ public class AdminView extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(95, 95, 95)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 319, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(76, Short.MAX_VALUE))
         );
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
@@ -248,6 +264,10 @@ public class AdminView extends javax.swing.JFrame {
         card_layout.show(card_content_layout, "appoimentView");
     }//GEN-LAST:event_appo_buttononClientLogin
 
+    private void onCreateAppo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateAppo
+        card_layout.show(card_content_layout, "apcreate");
+    }//GEN-LAST:event_onCreateAppo
+
     /**
      * @param args the command line arguments
      */
@@ -287,6 +307,7 @@ public class AdminView extends javax.swing.JFrame {
     private javax.swing.JButton appo_button;
     private javax.swing.JButton appotype_button;
     private javax.swing.JPanel card_content_layout;
+    private javax.swing.JButton create_appo_button;
     private javax.swing.JPanel header;
     private javax.swing.JLabel header_title;
     private javax.swing.JPanel jPanel2;
