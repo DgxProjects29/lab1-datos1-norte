@@ -1,7 +1,8 @@
 
 package views.clientviews.formviews;
 
-import forms.ComboFieldGetter;
+import logic.FieldMapper;
+
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
@@ -10,20 +11,22 @@ import forms.Form;
 import forms.PseudoWriterForm;
 import forms.registerforms.RegisterAppointment;
 import java.awt.event.ActionEvent;
-import java.io.IOException;
-import javax.swing.DefaultComboBoxModel;
 import models.AppointmentType;
 import pseudofiles.PseudoFile;
 import logic.AppointmentHandler;
+import logic.AssociativeCombo;
+import logic.AssociativeForeignCombo;
 import models.Veterinarian;
 import models.Appointment;
 import models.Pet;
-import pseudofiles.PseudoFileReader;
 
 
 public class AppoimentViewForm extends javax.swing.JDialog {
     
     private PseudoFile saveAppoFile; 
+    private FieldMapper vetCombo;
+    private FieldMapper appoTypeCombo;
+    private FieldMapper petCombo;
     
     public AppoimentViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -39,11 +42,12 @@ public class AppoimentViewForm extends javax.swing.JDialog {
             new File("data/tipo_citas.csv"), 
             AppointmentType.getColumns()
         );
+
+        vetCombo = new AssociativeCombo(vetFile, "cedula", "nombre");
+        appoTypeCombo = new AssociativeCombo(appoTypeFile, "tipo", "nombre");
         
-        ComboFieldGetter cbVet = new ComboFieldGetter(vetFile, "cedula");
-        ComboFieldGetter cbAppoType = new ComboFieldGetter(appoTypeFile, "tipo");
-        vet_combo.setModel(cbVet.getComboModel());
-        appo_type_combo.setModel(cbAppoType.getComboModel());
+        vet_combo.setModel(vetCombo.getComboModel());
+        appo_type_combo.setModel(appoTypeCombo.getComboModel());
         
         vet_combo.addActionListener ((ActionEvent e) -> {
             setDateModel();
@@ -74,28 +78,14 @@ public class AppoimentViewForm extends javax.swing.JDialog {
     }
     
     public void setPetModels(String clientCed){
-        DefaultComboBoxModel<String> df = new DefaultComboBoxModel<>();
         PseudoFile petFile = new PseudoFile(
             new File("data/mascotas.csv"), 
             Pet.getColumns()
         );
-        try {
-            PseudoFileReader pseudoReader = new PseudoFileReader(petFile);
-
-            pseudoReader.readRegister();
-            while (!pseudoReader.EFO()){
-                
-                if(pseudoReader.getField("clientCed").equals(clientCed)){
-                    df.addElement(pseudoReader.getField("petId"));
-                }
-
-                pseudoReader.readRegister();
-            }
-            pseudoReader.close();
-        } catch (IOException e) {
-            
-        }
-        pet_combo.setModel(df);
+        petCombo = new AssociativeForeignCombo(petFile, "petId", "nombre", 
+            "clientCed", clientCed
+        );
+        pet_combo.setModel(petCombo.getComboModel());
     }
     
     private void centreWindow() {
@@ -176,7 +166,7 @@ public class AppoimentViewForm extends javax.swing.JDialog {
         pet_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna" }));
         pet_combo.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 0));
         pet_combo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        pet_combo.setPreferredSize(new java.awt.Dimension(170, 27));
+        pet_combo.setPreferredSize(new java.awt.Dimension(200, 27));
         jPanel3.add(pet_combo);
 
         adress_label1.setBackground(new java.awt.Color(247, 249, 249));
@@ -191,6 +181,7 @@ public class AppoimentViewForm extends javax.swing.JDialog {
         appo_type_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna" }));
         appo_type_combo.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 0));
         appo_type_combo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        appo_type_combo.setPreferredSize(new java.awt.Dimension(200, 27));
         jPanel3.add(appo_type_combo);
 
         adress_label2.setBackground(new java.awt.Color(247, 249, 249));
@@ -205,6 +196,7 @@ public class AppoimentViewForm extends javax.swing.JDialog {
         vet_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna" }));
         vet_combo.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 0));
         vet_combo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        vet_combo.setPreferredSize(new java.awt.Dimension(200, 27));
         jPanel3.add(vet_combo);
 
         adress_label3.setBackground(new java.awt.Color(247, 249, 249));
@@ -219,6 +211,7 @@ public class AppoimentViewForm extends javax.swing.JDialog {
         date_combo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "ninguna" }));
         date_combo.setBorder(javax.swing.BorderFactory.createEmptyBorder(3, 3, 3, 0));
         date_combo.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        date_combo.setPreferredSize(new java.awt.Dimension(200, 27));
         jPanel3.add(date_combo);
 
         register_client_button1.setBackground(new java.awt.Color(64, 145, 108));
@@ -247,12 +240,11 @@ public class AppoimentViewForm extends javax.swing.JDialog {
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(register_client_button1)
-                        .addGap(88, 88, 88))
+                    .addComponent(register_client_button1, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addComponent(register_client_button)
-                        .addGap(119, 119, 119))))
+                        .addGap(31, 31, 31)))
+                .addGap(60, 60, 60))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,7 +257,7 @@ public class AppoimentViewForm extends javax.swing.JDialog {
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(118, 118, 118))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(68, 68, 68)
+                        .addGap(64, 64, 64)
                         .addComponent(register_client_button)
                         .addGap(18, 18, 18)
                         .addComponent(register_client_button1)
@@ -293,9 +285,9 @@ public class AppoimentViewForm extends javax.swing.JDialog {
     private void onAccpetForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAccpetForm
         Form registerForm = new RegisterAppointment(
                 (String)date_combo.getSelectedItem(),
-                (String)appo_type_combo.getSelectedItem(),
-                (String)pet_combo.getSelectedItem(),
-                (String)vet_combo.getSelectedItem()
+                (String)appoTypeCombo.getRealValue(),
+                (String)petCombo.getRealValue(),
+                (String)vetCombo.getRealValue()
         );
         PseudoWriterForm pseudoWriterForm = new PseudoWriterForm(
             registerForm, 

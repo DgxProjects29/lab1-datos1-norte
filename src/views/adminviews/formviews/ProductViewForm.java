@@ -1,7 +1,7 @@
 package views.adminviews.formviews;
 
 import controllers.BaseController;
-import forms.ComboFieldGetter;
+import logic.ComboFieldGetter;
 import forms.Form;
 import forms.FormViewHandler;
 import java.awt.Dimension;
