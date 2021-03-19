@@ -175,7 +175,7 @@ public class VetView extends javax.swing.JFrame {
     }//GEN-LAST:event_OnSchedule
 
     private void OnProfile(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnProfile
-        card_layout.show(card_content_layout, "clientProfile");
+        card_layout.show(card_content_layout, "vetProfile");
     }//GEN-LAST:event_OnProfile
 
     private void OnHistory(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnHistory

@@ -4,15 +4,10 @@ package views.clientviews;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.io.File;
-import java.io.IOException;
 
 import forms.Form;
 import forms.PseudoWriterForm;
-import inevaup.dialogs.InfoDialog;
-import inevaup.dialogs.InfoDialog.TypeInfoDialog;
-import models.Client;
 import pseudofiles.PseudoFile;
-import pseudofiles.PseudoFileWriter;
 import forms.registerforms.RegisterForm;
 
 

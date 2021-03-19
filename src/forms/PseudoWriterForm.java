@@ -51,7 +51,7 @@ public class PseudoWriterForm{
     
     private void validFormDialog(){
         InfoDialog dialog = new InfoDialog(null, "Éxito", 
-            "El registro fue creado exitosamente", TypeInfoDialog.ERROR_DIALOG
+            "El registro fue creado exitosamente", TypeInfoDialog.SUCCESS_DIALOG
         );
         dialog.setVisible(true);
     }
