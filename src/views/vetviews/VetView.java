@@ -29,10 +29,12 @@ public class VetView extends javax.swing.JFrame {
     
         ProfileView vetProfile = new ProfileView();
         VetAppoimentView vetAppoimentView = new VetAppoimentView();
+        PetHistoryView petHistoryView = new PetHistoryView();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());
         card_content_layout.add(vetProfile, "vetProfile");
         card_content_layout.add(vetAppoimentView, "vetAppoimentView");
+        card_content_layout.add(petHistoryView, "petHistoryView");
         
     }
 
@@ -179,7 +181,7 @@ public class VetView extends javax.swing.JFrame {
     }//GEN-LAST:event_OnProfile
 
     private void OnHistory(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnHistory
-        
+        card_layout.show(card_content_layout, "petHistoryView");
     }//GEN-LAST:event_OnHistory
 
     private void OnReview(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnReview

@@ -60,21 +60,21 @@ public class RegisterPetHistory implements Form {
     //metodos adicionales 
     
      private void checkSizeDiagnosis()throws ValidationError{
-    if(validation.validateCharField(diagnostico, 50, 300)){
+    if(validation.validateCharField(diagnostico, 10, 300)){
     
     }else{
     
-    throw new ValidationError("Diagnostico invalidos. Recuerda que la cantidad de caracteres debe estar entre 50 y 300");
+    throw new ValidationError("Diagnostico invalidos. Recuerda que la cantidad de caracteres debe estar entre 10 y 300");
     }
     
      }
     
      private void checkSizePrescripcion() throws ValidationError {
-      if(validation.validateCharField(prescripcion, 50, 300)){
+      if(validation.validateCharField(prescripcion, 10, 300)){
     
     }else{
     
-    throw new ValidationError("Prescripción invalida. Recuerda que la cantidad de caracteres debe estar entre 50 y 300");
+    throw new ValidationError("Prescripción invalida. Recuerda que la cantidad de caracteres debe estar entre 10 y 300");
     }   
     
     

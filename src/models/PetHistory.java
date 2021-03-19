@@ -53,7 +53,7 @@ public class PetHistory {
     
       public static String[] getColumns(){
         return new String[]{
-            "idCita", "prescripcion", "diagnostico"
+            "diagnostico", "prescripcion", "idCita"
             
            
         };

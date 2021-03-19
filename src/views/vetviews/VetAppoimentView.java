@@ -1,10 +1,70 @@
 package views.vetviews;
 
+import controllers.BaseController;
+import controllers.ForeignController;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.WarningDialog;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import models.Appointment;
+import pseudofiles.PseudoFile;
+import vetapp.AuthManager;
+import views.vetviews.formviews.PetViewHistoryForm;
+
 public class VetAppoimentView extends javax.swing.JPanel {
 
+    private final BaseController controller;
     
     public VetAppoimentView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/citas.csv"), 
+            Appointment.getColumns()
+        );
+
+        controller = new ForeignController(
+            (DefaultTableModel) appo_table.getModel(), 
+            pseudoFile,
+            "cedVet",
+            AuthManager.getAuth().getAuthData().get("cedula")
+        );
+        
+        updateTable();
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+    
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private boolean deleteWarningDialog(){
+        WarningDialog dialog = new WarningDialog(null, "Advertencia", 
+            "¿Está seguro de eliminar el registro?"
+        );
+        dialog.setVisible(true);
+        return dialog.IsWarningAccepted();
     }
 
     /**
@@ -19,6 +79,7 @@ public class VetAppoimentView extends javax.swing.JPanel {
         card_content_layout = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         add_button = new javax.swing.JButton();
+        add_button1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         appo_table = new javax.swing.JTable();
 
@@ -40,19 +101,32 @@ public class VetAppoimentView extends javax.swing.JPanel {
         });
         jPanel1.add(add_button);
 
+        add_button1.setBackground(new java.awt.Color(64, 145, 108));
+        add_button1.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add_button1.setForeground(new java.awt.Color(255, 255, 255));
+        add_button1.setText("Eliminar Cita");
+        add_button1.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        add_button1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_button1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OnDelete(evt);
+            }
+        });
+        jPanel1.add(add_button1);
+
         appo_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "idCita", "tipoCita", "empieza", "termina", "idMascota", "cedVet"
+                "idCita", "tipoCita", "empieza", "idMascota"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -70,23 +144,23 @@ public class VetAppoimentView extends javax.swing.JPanel {
         card_content_layoutLayout.setHorizontalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(card_content_layoutLayout.createSequentialGroup()
+                .addContainerGap(97, Short.MAX_VALUE)
                 .addGroup(card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(card_content_layoutLayout.createSequentialGroup()
-                        .addGap(84, 84, 84)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(card_content_layoutLayout.createSequentialGroup()
-                        .addGap(276, 276, 276)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(96, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(194, 194, 194))))
         );
         card_content_layoutLayout.setVerticalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34)
+                .addGap(28, 28, 28)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -104,12 +178,41 @@ public class VetAppoimentView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        // TODO add your handling code here:
+        
+        int row = appo_table.getSelectedRow();
+        if (row != -1){
+            PetViewHistoryForm dialogForm = new PetViewHistoryForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setAppoId((String)controller.getTableModel()
+                    .getValueAt(row, 0)
+            );
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onAdd
+
+    private void OnDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnDelete
+       int row = appo_table.getSelectedRow();
+        if (row != -1){
+            if(deleteWarningDialog()){
+                controller.getTableModel().removeRow(row);
+                try {
+                    controller.reWriteFile();
+                } catch (IOException e) {
+                    fileExceptionDialog();
+                }
+            }
+        }else{
+            pickARowDialog();
+        }
+    }//GEN-LAST:event_OnDelete
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;
+    private javax.swing.JButton add_button1;
     private javax.swing.JTable appo_table;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JPanel jPanel1;

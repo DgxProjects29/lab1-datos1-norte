@@ -1,10 +1,69 @@
 package views.vetviews;
 
-public class PetHistoryView extends javax.swing.JPanel {
+import controllers.BaseController;
+import controllers.SimpleController;
+import inevaup.dialogs.InfoDialog;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.File;
+import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import models.PetHistory;
+import pseudofiles.PseudoFile;
+import views.vetviews.formviews.PetViewHistoryForm;
 
+public class PetHistoryView extends javax.swing.JPanel {
+    
+    private final BaseController controller;
     
     public PetHistoryView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/historial_mascotas.csv"), 
+            PetHistory.getColumns()
+        );
+
+        controller = new SimpleController(
+            (DefaultTableModel) pethisotry_table.getModel(), 
+            pseudoFile
+        );
+        
+        setListeners();
+    }
+    
+    private void setListeners(){
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent evt) {
+                 updateTable();
+            }
+        });
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
     }
 
     /**
@@ -18,18 +77,18 @@ public class PetHistoryView extends javax.swing.JPanel {
 
         card_content_layout = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        appo_table = new javax.swing.JTable();
+        pethisotry_table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         modify_button = new javax.swing.JButton();
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
 
-        appo_table.setModel(new javax.swing.table.DefaultTableModel(
+        pethisotry_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "idCita", "prescripcion", "diagnostico"
+                "diagnostico", "prescripcion", "idCita"
             }
         ) {
             Class[] types = new Class [] {
@@ -47,7 +106,7 @@ public class PetHistoryView extends javax.swing.JPanel {
                 return canEdit [columnIndex];
             }
         });
-        jScrollPane1.setViewportView(appo_table);
+        jScrollPane1.setViewportView(pethisotry_table);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
         jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 20, 10));
@@ -58,6 +117,11 @@ public class PetHistoryView extends javax.swing.JPanel {
         modify_button.setText("Editar Historial");
         modify_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
         modify_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        modify_button.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OnModify(evt);
+            }
+        });
         jPanel1.add(modify_button);
 
         javax.swing.GroupLayout card_content_layoutLayout = new javax.swing.GroupLayout(card_content_layout);
@@ -98,12 +162,25 @@ public class PetHistoryView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void OnModify(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnModify
+        int row = pethisotry_table.getSelectedRow();
+        if (row != -1){
+            PetViewHistoryForm dialogForm = new PetViewHistoryForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setFields(controller.getDataFromRow(row), row);
+            dialogForm.setBaseController(controller);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+    }//GEN-LAST:event_OnModify
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTable appo_table;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JButton modify_button;
+    private javax.swing.JTable pethisotry_table;
     // End of variables declaration//GEN-END:variables
 }
