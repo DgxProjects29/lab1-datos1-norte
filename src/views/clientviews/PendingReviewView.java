@@ -1,10 +1,70 @@
 package views.clientviews;
 
+import controllers.BaseController;
+import controllers.ForeignController;
+import inevaup.dialogs.InfoDialog;
+import inevaup.dialogs.WarningDialog;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import pseudofiles.PseudoFile;
+import vetapp.AuthManager;
+import views.clientviews.formviews.ReviewViewForm;
+
 public class PendingReviewView extends javax.swing.JPanel {
 
+    private final BaseController controller;
     
     public PendingReviewView() {
         initComponents();
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/reviews_pendientes.csv"), 
+            new String[]{"idCita", "cedVet", "clientCed"}
+        );
+
+        controller = new ForeignController(
+            (DefaultTableModel) appo_table.getModel(), 
+            pseudoFile,
+            "clientCed",
+            AuthManager.getAuth().getAuthData().get("cedula")
+        );
+        
+        updateTable();
+    }
+    
+    private void updateTable(){
+        try {
+            controller.updateTable();
+        } catch (IOException e) {
+            fileExceptionDialog();
+        }
+    }
+
+    private void fileExceptionDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Error", 
+            "Un error inesperado acaba de ocurrir", InfoDialog.TypeInfoDialog.ERROR_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
+    }
+    
+    private boolean deleteWarningDialog(){
+        WarningDialog dialog = new WarningDialog(null, "Advertencia", 
+            "¿Está seguro de eliminar el registro?"
+        );
+        dialog.setVisible(true);
+        return dialog.IsWarningAccepted();
     }
 
     /**
@@ -44,7 +104,7 @@ public class PendingReviewView extends javax.swing.JPanel {
         delete_button.setBackground(new java.awt.Color(64, 145, 108));
         delete_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         delete_button.setForeground(new java.awt.Color(255, 255, 255));
-        delete_button.setText("Cancelar Review");
+        delete_button.setText("Eliminar Review");
         delete_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
         delete_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         delete_button.addActionListener(new java.awt.event.ActionListener() {
@@ -59,14 +119,14 @@ public class PendingReviewView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "idCita", "veterinarianId", "clientId"
+                "idCita", "cedVet"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false
+                false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -118,11 +178,35 @@ public class PendingReviewView extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAdd(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAdd
-        // TODO add your handling code here:
+        int row = appo_table.getSelectedRow();
+        if (row != -1){
+            HashMap<String, String> currData = controller.getDataFromRow(row);
+            String cedVet = currData.get("cedVet");
+            ReviewViewForm dialogForm = new ReviewViewForm(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setClientCed(AuthManager.getAuth().getAuthData().get(("cedula")));
+            dialogForm.setCedVet(cedVet);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onAdd
 
     private void delete_buttononDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_delete_buttononDelete
-        // TODO add your handling code here:
+        int row = appo_table.getSelectedRow();
+        if (row != -1){
+            if(deleteWarningDialog()){
+                try {
+                    controller.getTableModel().removeRow(row);
+                    controller.reWriteFile();
+                } catch (IOException e) {
+                    fileExceptionDialog();
+                }
+            }
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_delete_buttononDelete
 
 

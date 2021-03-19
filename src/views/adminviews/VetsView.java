@@ -6,11 +6,14 @@ import controllers.SimpleController;
 import inevaup.dialogs.InfoDialog;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import models.Veterinarian;
 import pseudofiles.PseudoFile;
+import vetapp.AuthManager;
+import views.vetviews.VetReviewView;
 
 public class VetsView extends javax.swing.JPanel {
        
@@ -172,7 +175,18 @@ public class VetsView extends javax.swing.JPanel {
     }//GEN-LAST:event_onAdd
 
     private void onReview(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onReview
-        // TODO add your handling code here:
+        int row = vets_table.getSelectedRow();
+        if (row != -1){
+            HashMap<String, String> currData = controller.getDataFromRow(row);
+            String cedVet = currData.get("cedula");
+            VetReviewView dialogForm = new VetReviewView(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true
+            );
+            dialogForm.setCedVet(cedVet);
+            dialogForm.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
     }//GEN-LAST:event_onReview
 
 

@@ -4,13 +4,18 @@ import controllers.BaseController;
 import controllers.ForeignController;
 import inevaup.dialogs.InfoDialog;
 import inevaup.dialogs.WarningDialog;
+import logic.PseudoSearch;
+
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import models.Appointment;
+import models.Pet;
 import pseudofiles.PseudoFile;
+import pseudofiles.PseudoFileWriter;
 import vetapp.AuthManager;
 import views.vetviews.formviews.PetViewHistoryForm;
 
@@ -194,11 +199,20 @@ public class VetAppoimentView extends javax.swing.JPanel {
     }//GEN-LAST:event_onAdd
 
     private void OnDelete(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnDelete
-       int row = appo_table.getSelectedRow();
+        int row = appo_table.getSelectedRow();
         if (row != -1){
             if(deleteWarningDialog()){
-                controller.getTableModel().removeRow(row);
+                HashMap<String, String> currData = controller.getDataFromRow(row);
+                String petId = currData.get("idMascota");
+                String appoId = currData.get("idCita");
                 try {
+                    String cedClient = getClienIdFromPetId(petId);
+                    if (cedClient == null){
+                        System.out.println("HERE");
+                        throw new IOException();
+                    }
+                    createPendingReview(cedClient, appoId);
+                    controller.getTableModel().removeRow(row);
                     controller.reWriteFile();
                 } catch (IOException e) {
                     fileExceptionDialog();
@@ -208,7 +222,36 @@ public class VetAppoimentView extends javax.swing.JPanel {
             pickARowDialog();
         }
     }//GEN-LAST:event_OnDelete
+    
+    private void createPendingReview(String cedClient, String appoId) throws IOException{
+       
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/reviews_pendientes.csv") 
+        );
+ 
+        PseudoFileWriter pseudoFileWriter 
+            = new PseudoFileWriter(pseudoFile, true);
+        pseudoFileWriter.addRegister(new String[]{
+            appoId,
+            AuthManager.getAuth().getAuthData().get("cedula"),
+            cedClient
+        });
+        pseudoFileWriter.write();
+        pseudoFileWriter.close();
+        
+    }
+    
+    private String getClienIdFromPetId(String petId) throws IOException{
 
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/mascotas.csv"),
+            Pet.getColumns()
+        );
+    
+        return PseudoSearch.findValueByKey(pseudoFile, "clientCed", 
+            "petId", petId);
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;

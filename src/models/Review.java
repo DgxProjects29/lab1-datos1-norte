@@ -64,8 +64,8 @@ public class Review {
         return new String[]{
             "estrellas",
             "detalles",
-            "clientId",
-            "veterinario"
+            "clientCed",
+            "cedVet"
            
         };
     }
