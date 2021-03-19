@@ -11,7 +11,7 @@ public class Validation {
 
     }
 
-    public boolean validateIntegerField(Double value, Double min, Double max) {
+    public boolean validateDoubleField(Double value, Double min, Double max) {
         return value >= min && value <= max;
 
     }
