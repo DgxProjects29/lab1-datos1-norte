@@ -343,7 +343,7 @@ public class GeneralAuthView extends javax.swing.JFrame {
 
     private void onClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onClientLogin
         PseudoFile pseudoFile = new PseudoFile(
-            new File("data/clientes.csv"),
+            new File("data/clients.csv"),
             Client.getColumns()
         );
 
