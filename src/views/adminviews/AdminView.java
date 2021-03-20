@@ -4,7 +4,8 @@ package views.adminviews;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
+import vetapp.AuthManager;
+import views.authviews.GeneralAuthView;
 
 public class AdminView extends javax.swing.JFrame {
 
@@ -34,6 +35,7 @@ public class AdminView extends javax.swing.JFrame {
         VetsView vetsView = new VetsView();
         AppoTypeView appoTypeView = new AppoTypeView();
         AdminAppoCreateView apcreate = new AdminAppoCreateView();
+        SaleView saleView = new SaleView();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());
         card_content_layout.add(pendingAppoimentView, "pendingAppoimentView");
@@ -43,7 +45,7 @@ public class AdminView extends javax.swing.JFrame {
         card_content_layout.add(providerView, "providerView");
         card_content_layout.add(vetsView, "vetsView");
         card_content_layout.add(appoTypeView, "appoTypeView");
-        
+        card_content_layout.add(saleView, "saleView");
     }
 
     /**
@@ -56,6 +58,7 @@ public class AdminView extends javax.swing.JFrame {
     private void initComponents() {
 
         header = new javax.swing.JPanel();
+        back_button = new javax.swing.JLabel();
         header_title = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -76,6 +79,18 @@ public class AdminView extends javax.swing.JFrame {
         header.setForeground(new java.awt.Color(255, 255, 255));
         header.setAlignmentY(0.0F);
         header.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 40, 30));
+
+        back_button.setBackground(new java.awt.Color(55, 71, 79));
+        back_button.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        back_button.setForeground(new java.awt.Color(255, 255, 255));
+        back_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-back-green-36.png"))); // NOI18N
+        back_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        back_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                back_buttonOnBackButton(evt);
+            }
+        });
+        header.add(back_button);
 
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -206,7 +221,7 @@ public class AdminView extends javax.swing.JFrame {
             .addGroup(jPanel4Layout.createSequentialGroup()
                 .addGap(95, 95, 95)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(76, Short.MAX_VALUE))
+                .addContainerGap(72, Short.MAX_VALUE))
         );
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
@@ -257,7 +272,7 @@ public class AdminView extends javax.swing.JFrame {
     }//GEN-LAST:event_appotype_buttononClientLogin
 
     private void sale_buttononClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sale_buttononClientLogin
-        // TODO add your handling code here:
+        card_layout.show(card_content_layout, "saleView");
     }//GEN-LAST:event_sale_buttononClientLogin
 
     private void appo_buttononClientLogin(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_appo_buttononClientLogin
@@ -267,6 +282,15 @@ public class AdminView extends javax.swing.JFrame {
     private void onCreateAppo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onCreateAppo
         card_layout.show(card_content_layout, "apcreate");
     }//GEN-LAST:event_onCreateAppo
+
+    private void back_buttonOnBackButton(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonOnBackButton
+        GeneralAuthView gv = new GeneralAuthView();
+        gv.setVisible(true);
+        AuthManager.getAuth().setAuthData(null);
+        AuthManager.getAuth().setPseudoFile(null);
+        this.dispose();
+
+    }//GEN-LAST:event_back_buttonOnBackButton
 
     /**
      * @param args the command line arguments
@@ -306,6 +330,7 @@ public class AdminView extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton appo_button;
     private javax.swing.JButton appotype_button;
+    private javax.swing.JLabel back_button;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JButton create_appo_button;
     private javax.swing.JPanel header;

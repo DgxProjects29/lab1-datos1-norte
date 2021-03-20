@@ -9,6 +9,7 @@ import java.io.File;
 import models.Appointment;
 import pseudofiles.PseudoFile;
 import vetapp.AuthManager;
+import views.authviews.GeneralAuthView;
 import views.clientviews.formviews.AppoimentViewForm;
 
 public class ClientView extends javax.swing.JFrame {
@@ -52,6 +53,7 @@ public class ClientView extends javax.swing.JFrame {
     private void initComponents() {
 
         header = new javax.swing.JPanel();
+        back_button = new javax.swing.JLabel();
         header_title = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
@@ -68,6 +70,18 @@ public class ClientView extends javax.swing.JFrame {
         header.setForeground(new java.awt.Color(255, 255, 255));
         header.setAlignmentY(0.0F);
         header.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 40, 30));
+
+        back_button.setBackground(new java.awt.Color(55, 71, 79));
+        back_button.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        back_button.setForeground(new java.awt.Color(255, 255, 255));
+        back_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-back-green-36.png"))); // NOI18N
+        back_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        back_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                back_buttonOnBackButton(evt);
+            }
+        });
+        header.add(back_button);
 
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
@@ -144,7 +158,7 @@ public class ClientView extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(178, Short.MAX_VALUE)
+                .addContainerGap(174, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(168, 168, 168))
         );
@@ -200,6 +214,15 @@ public class ClientView extends javax.swing.JFrame {
         card_layout.show(card_content_layout, "pendingReviewView");
     }//GEN-LAST:event_OnReviews
 
+    private void back_buttonOnBackButton(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_back_buttonOnBackButton
+        GeneralAuthView gv = new GeneralAuthView();
+        gv.setVisible(true);
+        AuthManager.getAuth().setAuthData(null);
+        AuthManager.getAuth().setPseudoFile(null);
+        this.dispose();
+
+    }//GEN-LAST:event_back_buttonOnBackButton
+
     /**
      * @param args the command line arguments
      */
@@ -237,6 +260,7 @@ public class ClientView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel back_button;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JButton create_appoiment;
     private javax.swing.JPanel header;

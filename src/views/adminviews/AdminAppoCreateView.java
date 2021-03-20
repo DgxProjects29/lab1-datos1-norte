@@ -98,7 +98,7 @@ public class AdminAppoCreateView extends javax.swing.JPanel {
 
     private void OnMoveToForm(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnMoveToForm
         PseudoFile appoFile = new PseudoFile(
-            new File("data/citas.csv"), 
+            new File("data/citas_pendientes.csv"), 
             Appointment.getColumns()
         );
         Validation v = new Validation();

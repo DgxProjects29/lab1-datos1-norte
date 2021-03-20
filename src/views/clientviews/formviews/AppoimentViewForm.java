@@ -76,8 +76,8 @@ public class AppoimentViewForm extends javax.swing.JDialog {
         );
         AppointmentHandler apoHandler = new AppointmentHandler();
         apoHandler.generateDates();
-        apoHandler.filterDates(pendingAppoFile, (String)vet_combo.getSelectedItem());
-        apoHandler.filterDates(appoFile, (String)vet_combo.getSelectedItem());
+        apoHandler.filterDates(pendingAppoFile, (String)vetCombo.getRealValue());
+        apoHandler.filterDates(appoFile, (String)vetCombo.getRealValue());
         date_combo.setModel(apoHandler.getComboModel());
     }
     

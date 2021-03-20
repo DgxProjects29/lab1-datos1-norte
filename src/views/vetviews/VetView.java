@@ -4,6 +4,10 @@ import views.authviews.ProfileView;
 import java.awt.CardLayout;
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
+import vetapp.AuthManager;
+import views.authviews.GeneralAuthView;
 
 
 public class VetView extends javax.swing.JFrame {
@@ -48,7 +52,8 @@ public class VetView extends javax.swing.JFrame {
     private void initComponents() {
 
         header = new javax.swing.JPanel();
-        header_title = new javax.swing.JLabel();
+        back_button = new javax.swing.JLabel();
+        header_title1 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         profile_button = new javax.swing.JButton();
@@ -65,11 +70,23 @@ public class VetView extends javax.swing.JFrame {
         header.setAlignmentY(0.0F);
         header.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 40, 30));
 
-        header_title.setBackground(new java.awt.Color(55, 71, 79));
-        header_title.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        header_title.setForeground(new java.awt.Color(255, 255, 255));
-        header_title.setText("Veterinario");
-        header.add(header_title);
+        back_button.setBackground(new java.awt.Color(55, 71, 79));
+        back_button.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        back_button.setForeground(new java.awt.Color(255, 255, 255));
+        back_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-back-green-36.png"))); // NOI18N
+        back_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        back_button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                OnBackButton(evt);
+            }
+        });
+        header.add(back_button);
+
+        header_title1.setBackground(new java.awt.Color(55, 71, 79));
+        header_title1.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        header_title1.setForeground(new java.awt.Color(255, 255, 255));
+        header_title1.setText("Veterinario");
+        header.add(header_title1);
 
         jPanel4.setBackground(new java.awt.Color(247, 249, 249));
 
@@ -140,7 +157,7 @@ public class VetView extends javax.swing.JFrame {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap(175, Short.MAX_VALUE)
+                .addContainerGap(171, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(169, 169, 169))
         );
@@ -185,8 +202,21 @@ public class VetView extends javax.swing.JFrame {
     }//GEN-LAST:event_OnHistory
 
     private void OnReview(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnReview
-       
+       VetReviewView dialogForm = new VetReviewView(
+            (JFrame) SwingUtilities.getWindowAncestor(this), true
+        );
+        dialogForm.setCedVet(AuthManager.getAuth().getAuthData().get("cedula"));
+        dialogForm.setVisible(true);
     }//GEN-LAST:event_OnReview
+
+    private void OnBackButton(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OnBackButton
+        GeneralAuthView gv = new GeneralAuthView();
+        gv.setVisible(true);
+        AuthManager.getAuth().setAuthData(null);
+        AuthManager.getAuth().setPseudoFile(null);
+        this.dispose();
+            
+    }//GEN-LAST:event_OnBackButton
 
     /**
      * @param args the command line arguments
@@ -228,9 +258,10 @@ public class VetView extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton appoiment_button;
+    private javax.swing.JLabel back_button;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JPanel header;
-    private javax.swing.JLabel header_title;
+    private javax.swing.JLabel header_title1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JButton pet_button;

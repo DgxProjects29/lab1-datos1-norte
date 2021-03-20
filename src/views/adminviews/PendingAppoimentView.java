@@ -4,10 +4,15 @@ package views.adminviews;
 import controllers.BaseController;
 import controllers.SimpleController;
 import inevaup.dialogs.InfoDialog;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import javax.swing.table.DefaultTableModel;
+import logic.PseudoSearch;
 import models.Appointment;
+import models.Pet;
 import pseudofiles.PseudoFile;
 import pseudofiles.PseudoFileWriter;
 
@@ -29,7 +34,16 @@ public class PendingAppoimentView extends javax.swing.JPanel {
             pseudoFile
         );
         
-        updateTable();
+        setListeners();
+    }
+    
+     private void setListeners(){
+        this.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent evt) {
+                 updateTable();
+            }
+        });
     }
     
     private void updateTable(){
@@ -149,6 +163,7 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         if (row != -1){
             try {
                 registerAppoiment(row);
+                registerSale(row);
                 controller.getTableModel().removeRow(row);
                 controller.reWriteFile();
             } catch (IOException e) {
@@ -159,6 +174,37 @@ public class PendingAppoimentView extends javax.swing.JPanel {
             pickARowDialog();
         }
     }//GEN-LAST:event_onAcceptAppoiment
+    
+    private void registerSale(int row) throws IOException{
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/ventas.csv")
+        );
+        HashMap<String, String> currData = controller.getDataFromRow(row);
+        String appoType = currData.get("tipoCita");
+        String petId = currData.get("idMascota");
+        String clientCed = getClienIdFromPetId(petId);
+        
+        PseudoFileWriter pseudoFileWriter 
+            = new PseudoFileWriter(pseudoFile, true);
+        pseudoFileWriter.addRegister(new String[]{
+            appoType,
+            clientCed
+        });
+        pseudoFileWriter.write();
+        pseudoFileWriter.close();
+    }
+    
+    private String getClienIdFromPetId(String petId) throws IOException{
+
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/mascotas.csv"),
+            Pet.getColumns()
+        );
+    
+        return PseudoSearch.findValueByKey(pseudoFile, "clientCed", 
+            "petId", petId);
+        
+    }
     
     private void registerAppoiment(int row) throws IOException{
         
