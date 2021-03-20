@@ -9,12 +9,15 @@ import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import logic.PseudoSearch;
 import models.Appointment;
 import models.Pet;
 import pseudofiles.PseudoFile;
 import pseudofiles.PseudoFileWriter;
+import views.vetviews.AppoInfoView;
 
 
 public class PendingAppoimentView extends javax.swing.JPanel {
@@ -34,6 +37,7 @@ public class PendingAppoimentView extends javax.swing.JPanel {
             pseudoFile
         );
         
+        updateTable();
         setListeners();
     }
     
@@ -81,6 +85,7 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         card_content_layout = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         pending_appo_table = new javax.swing.JTable();
+        add_button4 = new javax.swing.JButton();
         accept_appo = new javax.swing.JButton();
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
@@ -110,6 +115,18 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(pending_appo_table);
 
+        add_button4.setBackground(new java.awt.Color(64, 145, 108));
+        add_button4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add_button4.setForeground(new java.awt.Color(255, 255, 255));
+        add_button4.setText("Ver cita");
+        add_button4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        add_button4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_button4OnAppoInfo(evt);
+            }
+        });
+
         accept_appo.setBackground(new java.awt.Color(64, 145, 108));
         accept_appo.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         accept_appo.setForeground(new java.awt.Color(255, 255, 255));
@@ -127,11 +144,13 @@ public class PendingAppoimentView extends javax.swing.JPanel {
         card_content_layoutLayout.setHorizontalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(card_content_layoutLayout.createSequentialGroup()
-                .addGap(305, 305, 305)
+                .addGap(250, 250, 250)
                 .addComponent(accept_appo)
-                .addContainerGap(326, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(add_button4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(96, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(84, 84, 84))
         );
@@ -141,7 +160,9 @@ public class PendingAppoimentView extends javax.swing.JPanel {
                 .addGap(32, 32, 32)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(54, 54, 54)
-                .addComponent(accept_appo)
+                .addGroup(card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(accept_appo)
+                    .addComponent(add_button4))
                 .addContainerGap(51, Short.MAX_VALUE))
         );
 
@@ -174,6 +195,29 @@ public class PendingAppoimentView extends javax.swing.JPanel {
             pickARowDialog();
         }
     }//GEN-LAST:event_onAcceptAppoiment
+
+    private void add_button4OnAppoInfo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_button4OnAppoInfo
+        int row = pending_appo_table.getSelectedRow();
+        if (row != -1){
+            AppoInfoView appoInfoView = new AppoInfoView(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true);
+            PseudoFile pseudoFile = new PseudoFile(
+                new File("data/citas_pendientes.csv"),
+                Appointment.getColumns()
+            );
+            try {
+                appoInfoView.setAppoInfo(pseudoFile,
+                    (String)controller.getTableModel().getValueAt(row, 0)
+                );
+            } catch (IOException ex) {
+                fileExceptionDialog();
+            }
+            appoInfoView.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+
+    }//GEN-LAST:event_add_button4OnAppoInfo
     
     private void registerSale(int row) throws IOException{
         PseudoFile pseudoFile = new PseudoFile(
@@ -230,6 +274,9 @@ public class PendingAppoimentView extends javax.swing.JPanel {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton accept_appo;
+    private javax.swing.JButton add_button2;
+    private javax.swing.JButton add_button3;
+    private javax.swing.JButton add_button4;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable pending_appo_table;

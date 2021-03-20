@@ -85,6 +85,7 @@ public class VetAppoimentView extends javax.swing.JPanel {
         jPanel1 = new javax.swing.JPanel();
         add_button = new javax.swing.JButton();
         add_button1 = new javax.swing.JButton();
+        add_button2 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         appo_table = new javax.swing.JTable();
 
@@ -118,6 +119,19 @@ public class VetAppoimentView extends javax.swing.JPanel {
             }
         });
         jPanel1.add(add_button1);
+
+        add_button2.setBackground(new java.awt.Color(64, 145, 108));
+        add_button2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add_button2.setForeground(new java.awt.Color(255, 255, 255));
+        add_button2.setText("Ver cita");
+        add_button2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        add_button2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                OnAppoInfo(evt);
+            }
+        });
+        jPanel1.add(add_button2);
 
         appo_table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -156,16 +170,16 @@ public class VetAppoimentView extends javax.swing.JPanel {
                         .addGap(83, 83, 83))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(194, 194, 194))))
+                        .addGap(141, 141, 141))))
         );
         card_content_layoutLayout.setVerticalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
                 .addGap(46, 46, 46)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(28, 28, 28)
+                .addGap(27, 27, 27)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -212,6 +226,7 @@ public class VetAppoimentView extends javax.swing.JPanel {
                         throw new IOException();
                     }
                     createPendingReview(cedClient, appoId);
+                    createFinishedAppo(row);
                     controller.getTableModel().removeRow(row);
                     controller.reWriteFile();
                 } catch (IOException e) {
@@ -222,6 +237,51 @@ public class VetAppoimentView extends javax.swing.JPanel {
             pickARowDialog();
         }
     }//GEN-LAST:event_OnDelete
+
+    private void OnAppoInfo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OnAppoInfo
+        int row = appo_table.getSelectedRow();
+        if (row != -1){
+            AppoInfoView appoInfoView = new AppoInfoView(
+            (JFrame) SwingUtilities.getWindowAncestor(this), true);
+            PseudoFile pseudoFile = new PseudoFile(
+                new File("data/citas.csv"), 
+                Appointment.getColumns()
+            );
+            try {
+                appoInfoView.setAppoInfo(pseudoFile,
+                        (String)controller.getTableModel().getValueAt(row, 0)
+                );
+            } catch (IOException ex) {
+                fileExceptionDialog();
+            }
+            appoInfoView.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+ 
+    }//GEN-LAST:event_OnAppoInfo
+    
+    private void createFinishedAppo(int row) throws IOException{
+        
+        PseudoFile pseudoFile = new PseudoFile(
+            new File("data/citas_finalizadas.csv")
+        );
+        
+        String[] appoiment = new String[]{
+            (String)controller.getTableModel().getValueAt(row, 0),
+            (String)controller.getTableModel().getValueAt(row, 1),
+            (String)controller.getTableModel().getValueAt(row, 2),
+            (String)controller.getTableModel().getValueAt(row, 3),
+            AuthManager.getAuth().getAuthData().get("cedula")
+        };
+        
+        PseudoFileWriter pseudoFileWriter 
+            = new PseudoFileWriter(pseudoFile, true);
+        pseudoFileWriter.addRegister(appoiment);
+        pseudoFileWriter.write();
+        pseudoFileWriter.close();
+        
+    }
     
     private void createPendingReview(String cedClient, String appoId) throws IOException{
        
@@ -256,6 +316,7 @@ public class VetAppoimentView extends javax.swing.JPanel {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add_button;
     private javax.swing.JButton add_button1;
+    private javax.swing.JButton add_button2;
     private javax.swing.JTable appo_table;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JPanel jPanel1;

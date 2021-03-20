@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import models.Appointment;
 import models.PetHistory;
 import pseudofiles.PseudoFile;
 import views.vetviews.formviews.PetViewHistoryForm;
@@ -80,6 +81,7 @@ public class PetHistoryView extends javax.swing.JPanel {
         pethisotry_table = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         modify_button = new javax.swing.JButton();
+        add_button2 = new javax.swing.JButton();
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
 
@@ -124,6 +126,19 @@ public class PetHistoryView extends javax.swing.JPanel {
         });
         jPanel1.add(modify_button);
 
+        add_button2.setBackground(new java.awt.Color(64, 145, 108));
+        add_button2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add_button2.setForeground(new java.awt.Color(255, 255, 255));
+        add_button2.setText("Ver cita");
+        add_button2.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        add_button2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_button2OnAppoInfo(evt);
+            }
+        });
+        jPanel1.add(add_button2);
+
         javax.swing.GroupLayout card_content_layoutLayout = new javax.swing.GroupLayout(card_content_layout);
         card_content_layout.setLayout(card_content_layoutLayout);
         card_content_layoutLayout.setHorizontalGroup(
@@ -134,7 +149,7 @@ public class PetHistoryView extends javax.swing.JPanel {
                         .addGap(84, 84, 84)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(card_content_layoutLayout.createSequentialGroup()
-                        .addGap(277, 277, 277)
+                        .addGap(218, 218, 218)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(96, Short.MAX_VALUE))
         );
@@ -143,9 +158,9 @@ public class PetHistoryView extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, card_content_layoutLayout.createSequentialGroup()
                 .addGap(39, 39, 39)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(33, 33, 33)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(37, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -176,7 +191,31 @@ public class PetHistoryView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_OnModify
 
+    private void add_button2OnAppoInfo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_button2OnAppoInfo
+        int row = pethisotry_table.getSelectedRow();
+        if (row != -1){
+            AppoInfoView appoInfoView = new AppoInfoView(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true);
+            PseudoFile pseudoFile = new PseudoFile(
+                new File("data/citas_finalizadas.csv"),
+                Appointment.getColumns()
+            );
+            try {
+                appoInfoView.setAppoInfo(pseudoFile,
+                    (String)controller.getTableModel().getValueAt(row, 2)
+                );
+            } catch (IOException ex) {
+                fileExceptionDialog();
+            }
+            appoInfoView.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+
+    }//GEN-LAST:event_add_button2OnAppoInfo
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_button2;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

@@ -7,9 +7,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 import models.Appointment;
 import pseudofiles.PseudoFile;
+import views.vetviews.AppoInfoView;
 
 public class AppoimentView extends javax.swing.JPanel {
     
@@ -30,6 +33,14 @@ public class AppoimentView extends javax.swing.JPanel {
   
         setListeners();
         
+    }
+    
+    private void pickARowDialog(){
+        InfoDialog dialog = new InfoDialog(null, "Ninguna fila selecionada", 
+            "Por favor seleciona un registro", 
+            InfoDialog.TypeInfoDialog.INFO_DIALOG
+        );
+        dialog.setVisible(true);
     }
     
     private void setListeners(){
@@ -68,6 +79,7 @@ public class AppoimentView extends javax.swing.JPanel {
         card_content_layout = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         appo_table = new javax.swing.JTable();
+        add_button4 = new javax.swing.JButton();
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
 
@@ -96,6 +108,18 @@ public class AppoimentView extends javax.swing.JPanel {
         });
         jScrollPane1.setViewportView(appo_table);
 
+        add_button4.setBackground(new java.awt.Color(64, 145, 108));
+        add_button4.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        add_button4.setForeground(new java.awt.Color(255, 255, 255));
+        add_button4.setText("Ver cita");
+        add_button4.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
+        add_button4.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        add_button4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                add_button4OnAppoInfo(evt);
+            }
+        });
+
         javax.swing.GroupLayout card_content_layoutLayout = new javax.swing.GroupLayout(card_content_layout);
         card_content_layout.setLayout(card_content_layoutLayout);
         card_content_layoutLayout.setHorizontalGroup(
@@ -104,6 +128,11 @@ public class AppoimentView extends javax.swing.JPanel {
                 .addGap(81, 81, 81)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 582, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(99, Short.MAX_VALUE))
+            .addGroup(card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(card_content_layoutLayout.createSequentialGroup()
+                    .addGap(323, 323, 323)
+                    .addComponent(add_button4, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(324, Short.MAX_VALUE)))
         );
         card_content_layoutLayout.setVerticalGroup(
             card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -111,6 +140,11 @@ public class AppoimentView extends javax.swing.JPanel {
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(143, Short.MAX_VALUE))
+            .addGroup(card_content_layoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(card_content_layoutLayout.createSequentialGroup()
+                    .addGap(445, 445, 445)
+                    .addComponent(add_button4)
+                    .addContainerGap(42, Short.MAX_VALUE)))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -125,8 +159,31 @@ public class AppoimentView extends javax.swing.JPanel {
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void add_button4OnAppoInfo(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_button4OnAppoInfo
+        int row = appo_table.getSelectedRow();
+        if (row != -1){
+            AppoInfoView appoInfoView = new AppoInfoView(
+                (JFrame) SwingUtilities.getWindowAncestor(this), true);
+            PseudoFile pseudoFile = new PseudoFile(
+                new File("data/citas.csv"),
+                Appointment.getColumns()
+            );
+            try {
+                appoInfoView.setAppoInfo(pseudoFile,
+                    (String)controller.getTableModel().getValueAt(row, 0)
+                );
+            } catch (IOException ex) {
+                fileExceptionDialog();
+            }
+            appoInfoView.setVisible(true);
+        }else{
+            pickARowDialog();
+        }
+    }//GEN-LAST:event_add_button4OnAppoInfo
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton add_button4;
     private javax.swing.JTable appo_table;
     private javax.swing.JPanel card_content_layout;
     private javax.swing.JScrollPane jScrollPane1;
