@@ -79,7 +79,7 @@ public class AppoTypeViewForm extends javax.swing.JDialog {
         header_title.setBackground(new java.awt.Color(55, 71, 79));
         header_title.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         header_title.setForeground(new java.awt.Color(255, 255, 255));
-        header_title.setText("Registrar Provedor");
+        header_title.setText("Registrar Tipo de Cita");
         header.add(header_title);
 
         jPanel1.setBackground(new java.awt.Color(249, 247, 247));
@@ -88,7 +88,7 @@ public class AppoTypeViewForm extends javax.swing.JDialog {
         accept_form_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
         accept_form_button.setForeground(new java.awt.Color(255, 255, 255));
         accept_form_button.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/icons8-login-24.png"))); // NOI18N
-        accept_form_button.setText("Añadir Provedor");
+        accept_form_button.setText("Añadir Tipo Cita");
         accept_form_button.setBorder(javax.swing.BorderFactory.createEmptyBorder(10, 25, 10, 25));
         accept_form_button.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         accept_form_button.addActionListener(new java.awt.event.ActionListener() {
@@ -187,7 +187,7 @@ public class AppoTypeViewForm extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(50, 50, 50)
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 122, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 125, Short.MAX_VALUE)
                 .addComponent(accept_form_button)
                 .addGap(93, 93, 93))
         );

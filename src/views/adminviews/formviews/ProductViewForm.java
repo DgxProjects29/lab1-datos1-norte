@@ -1,7 +1,6 @@
 package views.adminviews.formviews;
 
 import controllers.BaseController;
-import logic.ComboFieldGetter;
 import forms.Form;
 import forms.FormViewHandler;
 import java.awt.Dimension;
@@ -11,11 +10,14 @@ import java.util.HashMap;
 import models.Provider;
 import pseudofiles.PseudoFile;
 import forms.registerforms.RegisterProducto;
+import logic.AssociativeCombo;
+import logic.FieldMapper;
 
 public class ProductViewForm extends javax.swing.JDialog {
 
     private int updateRowIndex = -1;
     private BaseController baseController;
+    private FieldMapper provCombo;
     
     public ProductViewForm(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -28,8 +30,8 @@ public class ProductViewForm extends javax.swing.JDialog {
             Provider.getColumns()
         );
         
-        ComboFieldGetter cb = new ComboFieldGetter(pseudoFile, "codigo");
-        provider_combo.setModel(cb.getComboModel());
+        provCombo = new AssociativeCombo(pseudoFile, "codigo", "nombre");
+        provider_combo.setModel(provCombo.getComboModel());
     }
     
     private void centreWindow() {
@@ -257,7 +259,7 @@ public class ProductViewForm extends javax.swing.JDialog {
                 details_field.getText(), 
                 buy_price_field.getText(),
                 stock_field.getText(),
-                (String)provider_combo.getItemAt(provider_combo.getSelectedIndex())
+                provCombo.getRealValue()
         );
         FormViewHandler formViewHandler = new FormViewHandler(
             registerForm, baseController
