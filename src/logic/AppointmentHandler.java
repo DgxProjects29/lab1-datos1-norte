@@ -61,7 +61,8 @@ public class AppointmentHandler {
             pseudoReader.readRegister();
             while (!pseudoReader.EFO()){
                 
-                if(pseudoReader.getField("cedVet").equals(vetCed)){
+                if(pseudoReader.getField("cedVet").equals(vetCed) && 
+                    isNormalAppoiment((pseudoReader.getField("tipoCita")))){
                     avaliableDates.removeIf(
                         s -> s.equals(pseudoReader.getField("empieza"))
                     );
@@ -73,6 +74,10 @@ public class AppointmentHandler {
         } catch (IOException e) {
             
         }
+    }
+
+    private boolean isNormalAppoiment(String appoType){
+        return !appoType.equals("5") && !appoType.equals("7"); 
     }
 
     private void generateDaySchedule(LocalDate currDate){
