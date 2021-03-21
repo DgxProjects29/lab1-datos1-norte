@@ -19,7 +19,7 @@ public class SaleView extends javax.swing.JPanel {
         
         PseudoFile pseudoFile = new PseudoFile(
             new File("data/ventas.csv"), 
-            new String[]{"tipoCita", "cedVet"}
+            new String[]{"tipoCita", "cedClient"}
         );
 
         controller = new SimpleController(
@@ -75,7 +75,7 @@ public class SaleView extends javax.swing.JPanel {
 
             },
             new String [] {
-                "tipoCita", "cedVet"
+                "tipoCita", "cedClient"
             }
         ) {
             Class[] types = new Class [] {

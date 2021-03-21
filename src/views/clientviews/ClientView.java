@@ -35,12 +35,13 @@ public class ClientView extends javax.swing.JFrame {
         ProfileView clientProfile = new ProfileView();
         PetClientView petClientView = new PetClientView();
         PendingReviewView pendingReviewView = new PendingReviewView();
+        PendingInvoices pendingInvoices = new PendingInvoices();
         
         card_layout = (CardLayout) (card_content_layout.getLayout());
         card_content_layout.add(clientProfile, "clientProfile");
         card_content_layout.add(petClientView, "petClientView");
         card_content_layout.add(pendingReviewView, "pendingReviewView");
-        
+        card_content_layout.add(pendingInvoices, "pendingInvoices");
     }
 
     /**
@@ -61,6 +62,7 @@ public class ClientView extends javax.swing.JFrame {
         pet_button = new javax.swing.JButton();
         create_appoiment = new javax.swing.JButton();
         profile_button1 = new javax.swing.JButton();
+        profile_button2 = new javax.swing.JButton();
         card_content_layout = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,7 +94,7 @@ public class ClientView extends javax.swing.JFrame {
         jPanel4.setBackground(new java.awt.Color(247, 249, 249));
 
         jPanel2.setBackground(new java.awt.Color(247, 249, 249));
-        jPanel2.setLayout(new java.awt.GridLayout(4, 1, 5, 10));
+        jPanel2.setLayout(new java.awt.GridLayout(5, 1, 5, 10));
 
         profile_button.setBackground(new java.awt.Color(64, 145, 108));
         profile_button.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
@@ -146,6 +148,19 @@ public class ClientView extends javax.swing.JFrame {
         });
         jPanel2.add(profile_button1);
 
+        profile_button2.setBackground(new java.awt.Color(64, 145, 108));
+        profile_button2.setFont(new java.awt.Font("Segoe UI", 0, 16)); // NOI18N
+        profile_button2.setForeground(new java.awt.Color(255, 255, 255));
+        profile_button2.setText("Pagar Citas");
+        profile_button2.setBorder(javax.swing.BorderFactory.createEmptyBorder(5, 25, 5, 25));
+        profile_button2.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        profile_button2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                profile_button2OnReviews(evt);
+            }
+        });
+        jPanel2.add(profile_button2);
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -159,8 +174,8 @@ public class ClientView extends javax.swing.JFrame {
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap(174, Short.MAX_VALUE)
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(168, 168, 168))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(125, 125, 125))
         );
 
         card_content_layout.setBackground(new java.awt.Color(247, 249, 249));
@@ -223,6 +238,10 @@ public class ClientView extends javax.swing.JFrame {
 
     }//GEN-LAST:event_back_buttonOnBackButton
 
+    private void profile_button2OnReviews(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_profile_button2OnReviews
+        card_layout.show(card_content_layout, "pendingInvoices");
+    }//GEN-LAST:event_profile_button2OnReviews
+
     /**
      * @param args the command line arguments
      */
@@ -270,5 +289,6 @@ public class ClientView extends javax.swing.JFrame {
     private javax.swing.JButton pet_button;
     private javax.swing.JButton profile_button;
     private javax.swing.JButton profile_button1;
+    private javax.swing.JButton profile_button2;
     // End of variables declaration//GEN-END:variables
 }

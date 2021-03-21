@@ -221,7 +221,7 @@ public class PendingAppoimentView extends javax.swing.JPanel {
     
     private void registerSale(int row) throws IOException{
         PseudoFile pseudoFile = new PseudoFile(
-            new File("data/ventas.csv")
+            new File("data/ventas_pendientes.csv")
         );
         HashMap<String, String> currData = controller.getDataFromRow(row);
         String appoType = currData.get("tipoCita");

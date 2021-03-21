@@ -272,7 +272,7 @@ public class RegisterViewForm extends javax.swing.JDialog {
         );
         PseudoWriterForm pseudoWriterForm = new PseudoWriterForm(
             registerForm, 
-            new PseudoFile(new File("data/clients.csv"))
+            new PseudoFile(new File("data/clientes.csv"))
         );
         pseudoWriterForm.writeRegister();
         
